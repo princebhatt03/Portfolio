@@ -67,3 +67,8 @@ function closeMenu() {
   hamburger.classList.remove('active');
   navMenu.classList.remove('active');
 }
+
+const cursor = new MouseFollower({
+  container: document.body,
+  speed: 0.3,
+});
