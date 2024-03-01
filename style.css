@@ -1,12 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap');
 * {
   margin: 0;
   padding: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Titillium Web', sans-serif;
 }
 html,
 body {
   width: 100%;
   height: 100%;
+}
+*::selection {
+  background-color: #222222;
 }
 #page1 {
   width: 100%;
@@ -17,20 +21,30 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
 }
+#page2 {
+  width: 100%;
+  min-height: 100vh;
+  overflow: auto;
+  position: relative;
+  background-color: #222222;
+}
 #navbar {
   display: flex;
   position: fixed;
+  z-index: 9;
   width: 100%;
   background-color: #fff;
 }
 .overlay {
   width: 100%;
   height: 100%;
-  background-color: #0f243b5e;
+  background-color: #2222224b;
 }
 #navbar ul {
   list-style: none;
   width: 100%;
+  display: flex;
+  justify-content: center;
 }
 #navbar li {
   width: auto;
@@ -39,7 +53,7 @@ body {
 }
 #navbar a {
   text-decoration: none;
-  color: #0f243b;
+  color: #222222;
   display: flex;
   font-weight: bold;
   justify-content: space-between;
@@ -68,7 +82,7 @@ body {
   width: 100px;
   height: 40px;
   border: none;
-  background-color: orangered;
+  background-color: #222222;
   color: white;
 }
 .page1-textdiv {
@@ -84,10 +98,78 @@ body {
 .inline-block {
   display: inline-block;
 }
-.page1-textdiv h1,
-h3 {
-  color: #0f243b;
+.page1-textdiv h1 {
+  color: #fff;
+  /* padding: 4px 0; */
+  font-size: 70px;
 }
+.page1-textdiv h2 {
+  color: #fff;
+  font-weight: 500;
+  font-size: 34px;
+}
+.page1-textdiv h3 {
+  color: #b3b3b3;
+  font-weight: 100;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 8px;
+}
+.page2-container1 {
+  display: flex;
+  position: relative;
+  text-align: center;
+  justify-content: center;
+}
+.page2-container1 h1 {
+  color: #fff;
+  font-weight: 100;
+}
+.page2-container1 span {
+  font-weight: 700;
+}
+.img-div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.vid-div {
+  width: 350px;
+  /* height: 300px; */
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  justify-content: space-between;
+  gap: 20px;
+}
+.video {
+  /* width: 400px; */
+  width: 100%;
+  /* position: relative; */
+  /* height: 300px; */
+  /* margin: 20px 0; */
+  display: block;
+  cursor: pointer;
+}
+.overlay22 {
+  position: absolute;
+  /* top: 10px; */
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  height: 50%;
+  width: 100%;
+  opacity: 0;
+  transition: all 0.3s ease;
+  background-color: #bac964;
+}
+.vid-div:hover .overlay22 {
+  opacity: 0.5;
+}
+
 @media only screen and (max-width: 700px) {
   #navbar ul {
     position: fixed;
@@ -111,7 +193,7 @@ h3 {
   }
   #navbar a {
     text-decoration: none;
-    color: #0f243b;
+    color: #222222;
     display: flex;
     font-weight: bold;
     justify-content: space-between;
