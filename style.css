@@ -196,6 +196,9 @@ body {
   background-color: #bac964;
   padding: 0;
 }
+#container a {
+  display: none;
+}
 #btn1 {
   margin-top: 2%;
   margin-bottom: 2%;
