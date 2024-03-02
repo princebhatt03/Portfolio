@@ -104,3 +104,25 @@ chart.innerRadius('55%');
 chart.title('My Skills');
 chart.container('container');
 chart.draw();
+
+let popup = document.getElementById('popup');
+function openPopup() {
+  popup.classList.add('open-popUp');
+}
+function closePopup() {
+  popup.classList.remove('open-popUp');
+}
+
+// function enableSubmit() {
+//   let inputs = document.getElementsByClassName('req');
+//   let formBtn = document.querySelector('#formBtn');
+//   let invalid = true;
+//   for (var i = 0; i < inputs.length; i++) {
+//     let changedInput = inputs[i];
+//     if (changedInput.value.trim() === '' || changedInput.value === null) {
+//       invalid = false;
+//       break;
+//     }
+//   }
+//   formBtn.disabled = !invalid;
+// }

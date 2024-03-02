@@ -27,10 +27,7 @@
               >
             </li>
             <li>
-              <a
-                href="https://www.linkedin.com/in/prince-bhatt-0958a725a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
-                >Contact</a
-              >
+              <a href="#page5">Contact</a>
             </li>
           </ul>
         </div>
@@ -211,18 +208,133 @@
               type="logo"
               color="#ffffff"></box-icon
           ></a>
-          <a href="mailto:princebhatt316@gmail.com"
+          <a href="mailto:support@princebhatt316@gmail.com"
             ><box-icon
               name="gmail"
               type="logo"
               color="#ffffff"></box-icon>
           </a>
         </div>
-        <button
-          onclick="open3()"
-          id="btn4">
-          Contact
-        </button>
+        <div class="btn-parent">
+          <button
+            onclick="open3()"
+            id="btn4">
+            Contact
+          </button>
+        </div>
+      </div>
+      <div id="page5">
+        <h1>Share Your <span>Thoughts</span></h1>
+        <div class="page5-form-cont">
+          <div class="form-box">
+            <div class="textup">
+              <i class="fa fa-solid fa-clock"></i>
+              Enter Your Details
+            </div>
+            <form action="">
+              <label for="uname">
+                <i class="fa fa-solid fa-user"></i>
+                Name
+              </label>
+              <input
+                type="text"
+                id="uname"
+                name="uname"
+                onkeyup="enableSubmit()"
+                required />
+
+              <label for="email">
+                <i class="fa fa-solid fa-envelope"></i>
+                Email Address
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                onkeyup="enableSubmit()"
+                required />
+
+              <label for="phone">
+                <i class="fa-solid fa-phone"></i>
+                Phone No
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                onkeyup="enableSubmit()" />
+
+              <label for="msg">
+                <i
+                  class="fa-solid fa-comments"
+                  style="margin-right: 3px"></i>
+                Write your Suggestions:
+              </label>
+              <textarea
+                id="msg"
+                name="msg"
+                rows="4"
+                cols="10"
+                required>
+              </textarea>
+              <button
+                id="formBtn"
+                type="submit"
+                value="SubmitForm"
+                onclick="openPopup()">
+                Submit
+              </button>
+            </form>
+          </div>
+          <div
+            class="popup"
+            id="popup">
+            <img
+              class="tick"
+              src="img/block.jfif"
+              alt="loading.." />
+            <p>Please Fill all Details</p>
+            <button
+              id="btnn"
+              onclick="closePopup()">
+              Ok
+            </button>
+          </div>
+        </div>
+        <div class="social2">
+          <a
+            href="https://www.linkedin.com/in/prince-bhatt-0958a725a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+            ><box-icon
+              name="linkedin"
+              type="logo"
+              color="#ffffff"></box-icon
+          ></a>
+          <a href="https://github.com/princebhatt03"
+            ><box-icon
+              name="github"
+              type="logo"
+              color="#ffffff"></box-icon
+          ></a>
+          <a
+            href="https://www.instagram.com/prince03_08?igsh=MXM2ZjEzbm0wbHkwbw=="
+            ><box-icon
+              name="instagram"
+              type="logo"
+              color="#ffffff"></box-icon
+          ></a>
+          <a href="https://wa.me/916265307739"
+            ><box-icon
+              name="whatsapp"
+              type="logo"
+              color="#ffffff"></box-icon
+          ></a>
+          <a href="mailto:support@princebhatt316@gmail.com"
+            ><box-icon
+              name="gmail"
+              type="logo"
+              color="#ffffff"></box-icon>
+          </a>
+        </div>
       </div>
     </div>
     <script
