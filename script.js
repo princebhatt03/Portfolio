@@ -1,16 +1,25 @@
 // alert('Website under construction, Stay tuned for updates!');
-// var tl = gsap.timeline();
 
-// tl.from('h2 ', {
+var tl = gsap.timeline();
+
+tl.from('h2 ', {
+  y: -30,
+  duration: 0.5,
+  delay: 0.3,
+  stagger: 0.3,
+  opacity: 0,
+});
+tl.from('h1 ', {
+  y: -30,
+  duration: 0.5,
+  delay: 0.3,
+  stagger: 0.3,
+  opacity: 0,
+});
+
+// tl.from('h6 ', {
 //   y: -30,
-//   duration: 0.5,
-//   delay: 0.3,
-//   stagger: 0.3,
-//   opacity: 0,
-// });
-// tl.from('h1 ', {
-//   y: -30,
-//   duration: 0.5,
+//   duration: 0.8,
 //   delay: 0.3,
 //   stagger: 0.3,
 //   opacity: 0,
@@ -25,20 +34,6 @@
 // tl.from('h4 ', {
 //   y: -30,
 //   duration: 0.5,
-//   delay: 0.3,
-//   stagger: 0.3,
-//   opacity: 0,
-// });
-// tl.from('h6 ', {
-//   y: -30,
-//   duration: 0.8,
-//   delay: 0.3,
-//   stagger: 0.3,
-//   opacity: 0,
-// });
-// tl.from('h3', {
-//   x: -30,
-//   duration: 0.8,
 //   delay: 0.3,
 //   stagger: 0.3,
 //   opacity: 0,
