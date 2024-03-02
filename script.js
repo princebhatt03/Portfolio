@@ -68,3 +68,20 @@ function closeMenu() {
   hamburger.classList.remove('active');
   navMenu.classList.remove('active');
 }
+
+const navigation = document.querySelector('#navbar');
+const navHeight = navigation.offsetHeight;
+document.documentElement.style.setProperty(
+  '--scroll-padding',
+  navHeight + 'px'
+);
+
+let btn1 = document.querySelector('#btn1');
+btn1.addEventListener('click', function open1() {
+  window.location.href = 'https://github.con/princebhatt03';
+});
+
+let btn2 = document.querySelector('#btn2');
+btn2.addEventListener('click', function open2() {
+  window.location.href = 'https://github.con/princebhatt03';
+});
