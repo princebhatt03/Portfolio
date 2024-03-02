@@ -113,6 +113,11 @@ function closePopup() {
   popup.classList.remove('open-popUp');
 }
 
+let topBtn = document.querySelector('#top-btn');
+topBtn.addEventListener('click', function top() {
+  window.location.href = '#page1';
+});
+
 // function enableSubmit() {
 //   let inputs = document.getElementsByClassName('req');
 //   let formBtn = document.querySelector('#formBtn');

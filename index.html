@@ -240,6 +240,7 @@
                   Name
                 </label>
                 <input
+                  placeholder="Enter Name Here"
                   type="text"
                   id="uname"
                   name="uname"
@@ -251,6 +252,7 @@
                   Email Address
                 </label>
                 <input
+                  placeholder="Enter Email Here"
                   type="email"
                   id="email"
                   name="email"
@@ -262,6 +264,7 @@
                   Phone No
                 </label>
                 <input
+                  placeholder="Enter Phone Number Here"
                   type="tel"
                   id="phone"
                   name="phone"
@@ -274,6 +277,7 @@
                   Write your Suggestions:
                 </label>
                 <textarea
+                  placeholder="Enter Any Message or Suggestions"
                   id="msg"
                   name="msg"
                   rows="4"
@@ -297,7 +301,10 @@
               class="tick"
               src="img/block.jfif"
               alt="loading.." />
-            <p>Please Fill all Details</p>
+            <p>
+              Please Fill all Details or wait for sometime we are sending your
+              response
+            </p>
             <button
               id="btnn"
               onclick="closePopup()">
@@ -339,6 +346,11 @@
               color="#ffffff"></box-icon>
           </a>
         </div>
+        <button
+          onclick="top()"
+          id="top-btn">
+          Top
+        </button>
       </div>
     </div>
     <script src=" https://smtpjs.com/v3/smtp.js"></script>
