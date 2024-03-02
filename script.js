@@ -78,10 +78,29 @@ document.documentElement.style.setProperty(
 
 let btn1 = document.querySelector('#btn1');
 btn1.addEventListener('click', function open1() {
-  window.location.href = 'https://github.con/princebhatt03';
+  window.location.href = 'https://github.com/princebhatt03';
 });
 
 let btn2 = document.querySelector('#btn2');
 btn2.addEventListener('click', function open2() {
-  window.location.href = 'https://github.con/princebhatt03';
+  window.location.href = 'https://github.com/princebhatt03';
 });
+
+let btn4 = document.querySelector('#btn4');
+btn4.addEventListener('click', function open3() {
+  window.location.href = 'https://wa.me/916265307739';
+});
+
+var data = anychart.data.set([
+  ['JavaScript', 34],
+  ['Java', 21],
+  ['HTML, CSS', 15],
+  ['Running Projects', 11],
+  ['MERN Stack', 6],
+  ['Others', 13],
+]);
+var chart = anychart.pie(data);
+chart.innerRadius('55%');
+chart.title('My Skills');
+chart.container('container');
+chart.draw();
