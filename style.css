@@ -11,6 +11,25 @@ body {
   scroll-padding: var(--scroll-padding, 1px);
   height: 100%;
 }
+/* .loader {
+  height: 4px;
+  width: 130px;
+  --c: no-repeat linear-gradient(#6100ee 0 0);
+  background: var(--c), var(--c), #d7b8fc;
+  background-size: 60% 100%;
+  animation: I16 3s infinite;
+}
+@keyframes I16 {
+  0% {
+    background-position: -150% 0, -150% 0;
+  }
+  66% {
+    background-position: 250% 0, -150% 0;
+  }
+  100% {
+    background-position: 250% 0, 250% 0;
+  }
+} */
 *::selection {
   background-color: #222222;
 }
@@ -43,8 +62,11 @@ body {
 }
 #page5 {
   max-width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  display: flex;
+  overflow: auto;
   position: relative;
+  justify-content: center;
   background-color: #bac964;
 }
 #navbar {
@@ -348,6 +370,7 @@ body {
 .social2 {
   position: absolute;
   bottom: 0;
+  left: 0;
   text-align: center;
   padding: 5px 0;
 }
@@ -380,7 +403,7 @@ body {
   margin-right: 3px;
 } */
 
-.form-box {
+/* .form-box {
   background-color: #222222;
   box-shadow: 0 0 10px rgba(36, 67, 40, 0.8);
   padding: 15px;
@@ -390,11 +413,30 @@ body {
   top: 10vh;
   border: none;
   text-align: center;
+} */
+.form-wrapper {
+  min-width: 100%;
+  z-index: 5;
+  min-height: 100%;
+  display: flex;
+  position: absolute;
+  justify-content: center;
 }
-
 form {
+  background-color: #222222;
+  box-shadow: 0 0 10px rgba(36, 67, 40, 0.8);
+  padding: 15px;
+  border-radius: 8px;
+  width: 80vw;
+  position: absolute;
+  top: 10vh;
+  border: none;
+  text-align: center;
   max-width: 300px;
   margin: 0 auto;
+}
+#page5::-webkit-scrollbar {
+  display: none;
 }
 label {
   display: block;
