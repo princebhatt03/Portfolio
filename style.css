@@ -417,7 +417,6 @@ body {
 .form-wrapper {
   min-width: 100%;
   z-index: 5;
-  min-height: 100%;
   display: flex;
   position: absolute;
   justify-content: center;
