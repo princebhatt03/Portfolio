@@ -67,10 +67,30 @@ h6 {
 }
 
 /* line 637, ../../../sponDon TI/Running Project/263.InteriorDesign_HTML/HTML/assets/scss/_common.scss */
+.preloader .preloader-circle {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  border-style: solid;
+  border-width: 1px;
+  border-top-color: #ff1313;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  z-index: 10;
+  border-radius: 50%;
+  -webkit-box-shadow: 0 1px 5px 0 rgba(35, 181, 185, 0.15);
+  box-shadow: 0 1px 5px 0 rgba(35, 181, 185, 0.15);
+  background-color: #fff;
+  -webkit-animation: zoom 2000ms infinite ease;
+  animation: zoom 2000ms infinite ease;
+  -webkit-transition: 0.6s;
+  -o-transition: 0.6s;
+  transition: 0.6s;
+}
+
+/* line 637, ../../../sponDon TI/Running Project/263.InteriorDesign_HTML/HTML/assets/scss/_common.scss */
 .preloader .preloader-circle2 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   border-top-color: #0078ff;
 }
 
@@ -79,27 +99,26 @@ h6 {
   position: absolute;
   top: 50%;
   z-index: 200;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   left: 0;
   right: 0;
+  border-radius: 50%;
   margin: 0 auto;
   text-align: center;
   display: inline-block;
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
-  padding-top: 6px;
+  /* padding-top: 6px; */
   -webkit-transition: 0.6s;
   -o-transition: 0.6s;
   transition: 0.6s;
 }
 
 /* line 658, ../../../sponDon TI/Running Project/263.InteriorDesign_HTML/HTML/assets/scss/_common.scss */
-.preloader .preloader-img p {
-  font-size: 15px;
-  text-align: center;
+.preloader .preloader-img img {
+  /* max-width: 80px; */
+  width: 90%;
+  border-radius: 50%;
 }
 
 /* line 661, ../../../sponDon TI/Running Project/263.InteriorDesign_HTML/HTML/assets/scss/_common.scss */
