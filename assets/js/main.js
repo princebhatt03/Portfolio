@@ -256,38 +256,7 @@
 
 // Onclick
 
-const form = document.querySelector('form');
-const fullName = document.getElementById('uname');
-const email = document.getElementById('email');
-// const phone = document.getElementById('phone');
-const msg = document.getElementById('msg');
 
-function sendEmail() {
-  const bodyMessage = `Name: ${fullName.value} <br> Email: ${email.value} <br> Message: ${msg.value}`;
-  Email.send({
-    Host: 'smtp.elasticemail.com',
-    Username: 'sharmaprince89667@gmail.com',
-    Password: '68C442F2C97BEB631F15B90EC0B05B659138',
-    To: 'sharmaprince89667@gmail.com',
-    From: 'sharmaprince89667@gmail.com',
-    Subject: 'New mail Form Porfolio',
-    Body: bodyMessage,
-  }).then(message => {
-    if (message == 'OK') {
-      Swal.fire({
-        title: 'Success!',
-        text: 'Message Sent Succesfully',
-        icon: 'success',
-      });
-    }
-  });
-}
-
-form.addEventListener('submit', e => {
-  e.preventDefault();
-
-  sendEmail();
-});
 
 window.addEventListener('load', function () {
   var preloader = document.getElementById('preloader-active');
