@@ -1,8 +1,16 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Open Sans', sans-serif;
   color: #272829;
+  text-align: justify;
+  width: 100%;
+  height: 100%;
 }
-
 a {
   color: #149ddd;
   text-decoration: none;
@@ -40,7 +48,6 @@ h6 {
   align-items: center;
 }
 
-/* line 615, ../../../sponDon TI/Running Project/263.InteriorDesign_HTML/HTML/assets/scss/_common.scss */
 .preloader .preloader-circle {
   width: 100px;
   height: 100px;
@@ -66,7 +73,6 @@ h6 {
   align-items: center;
 }
 
-/* line 637, ../../../sponDon TI/Running Project/263.InteriorDesign_HTML/HTML/assets/scss/_common.scss */
 .preloader .preloader-circle {
   width: 100px;
   height: 100px;
@@ -89,12 +95,10 @@ h6 {
   transition: 0.6s;
 }
 
-/* line 637, ../../../sponDon TI/Running Project/263.InteriorDesign_HTML/HTML/assets/scss/_common.scss */
 .preloader .preloader-circle2 {
   border-top-color: #0078ff;
 }
 
-/* line 640, ../../../sponDon TI/Running Project/263.InteriorDesign_HTML/HTML/assets/scss/_common.scss */
 .preloader .preloader-img {
   position: absolute;
   top: 50%;
@@ -114,14 +118,11 @@ h6 {
   transition: 0.6s;
 }
 
-/* line 658, ../../../sponDon TI/Running Project/263.InteriorDesign_HTML/HTML/assets/scss/_common.scss */
 .preloader .preloader-img img {
-  /* max-width: 80px; */
   width: 90%;
   border-radius: 50%;
 }
 
-/* line 661, ../../../sponDon TI/Running Project/263.InteriorDesign_HTML/HTML/assets/scss/_common.scss */
 .preloader .pere-text strong {
   font-weight: 800;
   color: #dca73a;
@@ -449,7 +450,7 @@ h6 {
 # Sections General
 --------------------------------------------------------------*/
 section {
-  padding: 60px 0;
+  padding: 60px 10px;
   overflow: hidden;
 }
 
