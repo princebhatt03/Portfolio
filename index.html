@@ -980,13 +980,12 @@
               class="col-lg-7 mt-5 mt-lg-0 d-flex flex-column align-items-stretch">
               <div class="section-title">
                 <p>
-                  Feel free to share your feedback or connect for any queries,
-                  Send Mail;
+                  Feel free to reach out for any freelance project
+                  collaborations or queries. <br />
+                  I'm always open to new opportunities—just drop a message:
                 </p>
               </div>
-              <form
-                class="php-email-form"
-                onsubmit="sendEmail(event)">
+              <form class="php-email-form">
                 <div class="row">
                   <div class="form-group col-md-6">
                     <label for="name">Your Name</label>
@@ -1025,7 +1024,10 @@
                     rows="10"
                     required></textarea>
                 </div>
-                <div class="my-3">
+                <p
+                  style="color: rgb(40, 235, 40)"
+                  class="form-messege11"></p>
+                <!-- <div class="my-3">
                   <div
                     class="loading"
                     style="display: none">
@@ -1039,9 +1041,13 @@
                     style="display: none">
                     Your message has been sent. Thank you!
                   </div>
-                </div>
+                </div> -->
                 <div class="text-center">
-                  <button type="submit">Send Message</button>
+                  <button
+                    onclick="sendWA()"
+                    type="submit">
+                    Send Message
+                  </button>
                 </div>
               </form>
             </div>
@@ -1069,16 +1075,53 @@
       title="Back to top"
       ><i class="bi bi-arrow-up-short"></i
     ></a>
+    <script>
+      function sendWA() {
+        var phoneNumber = '+916265307739';
+        var name = document.querySelector('input[name="name"]').value;
+        var email = document.querySelector('input[name="email"]').value;
+        var subject = document.querySelector('input[name="subject"]').value;
+        var message = document.querySelector('textarea[name="message"]').value;
+        var para = document.querySelector('.form-messege11');
+
+        var url =
+          'https://wa.me/' +
+          phoneNumber +
+          '?text=' +
+          'Name: ' +
+          encodeURIComponent(name) +
+          '%0a' +
+          'Email: ' +
+          encodeURIComponent(email) +
+          '%0a' +
+          'Subject: ' +
+          encodeURIComponent(subject) +
+          '%0a' +
+          'Message: ' +
+          encodeURIComponent(message);
+
+        para.innerHTML = 'Redirecting to WhatsApp...';
+        para.style.display = 'block';
+
+        // Hide after 5 seconds
+        setTimeout(function () {
+          para.innerHTML = '';
+          para.style.display = 'none';
+        }, 5000);
+
+        window.open(url, '_blank').focus();
+      }
+    </script>
     <script
       type="text/javascript"
       src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
       (function () {
         emailjs.init({
           publicKey: 'rPQ2xd9-2HLpWgmp4',
         });
       })();
-    </script>
+    </script> -->
     <script src="./assets/js/email.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
