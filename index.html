@@ -42,6 +42,27 @@
     <link
       href="assets/css/style.css"
       rel="stylesheet" />
+    <style>
+      /* Testimonials section */
+      .testimonials .testimonial-item {
+        transition: transform 0.3s ease;
+      }
+      .testimonials .testimonial-item:hover {
+        transform: translateY(-6px);
+      }
+      .testimonials .testimonial-img {
+        width: 64px;
+        height: 64px;
+        object-fit: cover;
+        border: 3px solid #ff7b00; /* primary accent */
+      }
+      .testimonials .quote-icon-left,
+      .testimonials .quote-icon-right {
+        color: #ffd700; /* accent yellow */
+        font-size: 20px;
+        line-height: 0;
+      }
+    </style>
   </head>
   <body>
     <div id="preloader-active">
@@ -136,13 +157,6 @@
                 ><i class="bx bx-book-content"></i> <span>Projects</span></a
               >
             </li>
-            <!-- <li>
-              <a
-                href="#services"
-                class="nav-link scrollto"
-                ><i class="bx bx-server"></i> <span>Services</span></a
-              >
-            </li> -->
             <li>
               <a
                 href="#contact"
@@ -1120,271 +1134,122 @@
       </section>
       <!-- End Portfolio Section -->
 
-      <!-- 
-      
- <section
-        id="portfolio"
-        class="portfolio section-bg">
+      <!-- ======= Testimonials Section ======= -->
+      <section
+        id="testimonial"
+        class="testimonials py-5">
         <div class="container">
-          <div class="section-title">
-            <h2>Projects</h2>
-            <p>
-              I created various Full Stack Projects showing my skills in Full
-              Stack Development
-            </p>
-          </div>
-
           <div
-            class="row"
+            class="section-title text-left mb-5"
             data-aos="fade-up">
-            <div class="col-lg-12 d-flex justify-content-center">
-              <ul id="portfolio-flters">
-                <li
-                  data-filter="*"
-                  class="filter-active">
-                  All
-                </li>
-                <li data-filter=".filter-app">Front-End</li>
-                <li data-filter=".filter-card">Back-End</li>
-                <li data-filter=".filter-web">React</li>
-              </ul>
-            </div>
+            <h2>Testimonials</h2>
+            <p>Feedback from clients I've worked with on Full Stack Projects</p>
           </div>
 
           <div
-            class="row portfolio-container"
+            class="row g-4 justify-content-center"
             data-aos="fade-up"
             data-aos-delay="100">
-            <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-              <div class="portfolio-wrap">
-                <img
-                  src="assets/img/portfolio/Auxes.png"
-                  class="img-fluid"
-                  alt="" />
-                <div class="portfolio-links">
-                  <a
-                    href="assets/img/portfolio/Auxes.png"
-                    data-gallery="portfolioGallery"
-                    class="portfolio-lightbox"
-                    title="Auxes"
-                    ><i class="bx bx-plus"></i
-                  ></a>
-                  <a
-                    target="_blank"
-                    href="http://api.auxes.in/"
-                    title="More Details"
-                    ><i class="bx bx-link"></i
-                  ></a>
+            <!-- Testimonial Card 1 -->
+            <div class="col-lg-4 col-md-6">
+              <div class="card testimonial-card p-4 shadow-sm h-100">
+                <div class="d-flex align-items-center mb-3">
+                  <img
+                    src="assets/img/portfolio/favicon.ico"
+                    class="rounded-circle me-3"
+                    width="60"
+                    height="60"
+                    alt="Client 1" />
+                  <div>
+                    <h5
+                      style="text-align: left"
+                      class="mb-0">
+                      AUXES IT SOLUTIONS
+                    </h5>
+                    <small class="text-muted">IT Company Bhopal</small>
+                  </div>
                 </div>
+                <p class="testimonial-text fst-italic">
+                  <i
+                    class="bx bxs-quote-alt-left quote-icon-left text-warning"></i>
+                  Prince successfully completed his Full Stack Development
+                  Internship at AUXES IT Solutions, showcasing excellent skills
+                  in both frontend and backend development. His contributions to
+                  our live projects were impactful and professional.
+                  <i
+                    class="bx bxs-quote-alt-right quote-icon-right text-warning"></i>
+                </p>
               </div>
             </div>
 
-            <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-              <div class="portfolio-wrap">
-                <img
-                  src="assets/img/portfolio/react1.png"
-                  class="img-fluid"
-                  alt="" />
-                <div class="portfolio-links">
-                  <a
-                    href="assets/img/portfolio/react1.png"
-                    data-gallery="portfolioGallery"
-                    class="portfolio-lightbox"
-                    title="Shopsy"
-                    ><i class="bx bx-plus"></i
-                  ></a>
-                  <a
-                    target="_blank"
-                    href="https://prince-shopsy-ecommerce.netlify.app/"
-                    title="More Details"
-                    ><i class="bx bx-link"></i
-                  ></a>
+            <!-- Testimonial Card 2 -->
+            <div class="col-lg-4 col-md-6">
+              <div class="card testimonial-card p-4 shadow-sm h-100">
+                <div class="d-flex align-items-center mb-3">
+                  <img
+                    src="assets/img/portfolio/testProf.png"
+                    class="rounded-circle me-3"
+                    width="60"
+                    height="60"
+                    alt="Client 2" />
+                  <div>
+                    <h5 class="mb-0">Nidhi Navandar</h5>
+                    <small class="text-muted">Student</small>
+                  </div>
                 </div>
+                <p class="testimonial-text fst-italic">
+                  <i
+                    class="bx bxs-quote-alt-left quote-icon-left text-warning"></i>
+                  The overall communication was fantastic. Project delivery very
+                  fast and cant imagine so fast delivery as it completed even
+                  before the time all changes I said were done promptly and on
+                  priority basis.
+                  <i
+                    class="bx bxs-quote-alt-right quote-icon-right text-warning"></i>
+                </p>
               </div>
             </div>
 
-            <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-              <div class="portfolio-wrap">
-                <img
-                  src="assets/img/portfolio/princeOfDeals.png"
-                  class="img-fluid"
-                  alt="" />
-                <div class="portfolio-links">
-                  <a
-                    href="assets/img/portfolio/princeOfDeals.png"
-                    data-gallery="portfolioGallery"
-                    class="portfolio-lightbox"
-                    title="QuickPick E-commerce Website"
-                    ><i class="bx bx-plus"></i
-                  ></a>
-                  <a
-                    target="_blank"
-                    href="https://quickpick-ba3l.onrender.com"
-                    title="More Details"
-                    ><i class="bx bx-link"></i
-                  ></a>
+            <!-- Testimonial Card 3 -->
+            <div class="col-lg-4 col-md-6">
+              <div class="card testimonial-card p-4 shadow-sm h-100">
+                <div class="d-flex align-items-center mb-3">
+                  <img
+                    src="assets/img/portfolio/testProf.png"
+                    class="rounded-circle me-3"
+                    width="60"
+                    height="60"
+                    alt="Client 3" />
+                  <div>
+                    <h5 class="mb-0">Harsh Gautam</h5>
+                    <small
+                      style="text-align: center"
+                      class="text-muted"
+                      >Company Employee</small
+                    >
+                  </div>
                 </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-              <div class="portfolio-wrap">
-                <img
-                  src="assets/img/portfolio/meta.png"
-                  class="img-fluid"
-                  alt="" />
-                <div class="portfolio-links">
-                  <a
-                    href="assets/img/portfolio/meta.png"
-                    data-gallery="portfolioGallery"
-                    class="portfolio-lightbox"
-                    title="Meta Photos"
-                    ><i class="bx bx-plus"></i
-                  ></a>
-                  <a
-                    target="_blank"
-                    href="https://meta-photos.onrender.com/"
-                    title="More Details"
-                    ><i class="bx bx-link"></i
-                  ></a>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-              <div class="portfolio-wrap">
-                <img
-                  src="assets/img/portfolio/react2.png"
-                  class="img-fluid"
-                  alt="" />
-                <div class="portfolio-links">
-                  <a
-                    href="assets/img/portfolio/react2.png"
-                    data-gallery="portfolioGallery"
-                    class="portfolio-lightbox"
-                    title="Starbucks"
-                    ><i class="bx bx-plus"></i
-                  ></a>
-                  <a
-                    target="_blank"
-                    href="https://princebhatt03.github.io/Reimagine-Website/"
-                    title="More Details"
-                    ><i class="bx bx-link"></i
-                  ></a>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-              <div class="portfolio-wrap">
-                <img
-                  src="assets/img/portfolio/crystallo.png"
-                  class="img-fluid"
-                  alt="" />
-                <div class="portfolio-links">
-                  <a
-                    href="assets/img/portfolio/crystallo.png"
-                    data-gallery="portfolioGallery"
-                    class="portfolio-lightbox"
-                    title="Crystallo"
-                    ><i class="bx bx-plus"></i
-                  ></a>
-                  <a
-                    target="_blank"
-                    href="http://princebhatt03.github.io/Crystalo"
-                    title="More Details"
-                    ><i class="bx bx-link"></i
-                  ></a>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-              <div class="portfolio-wrap">
-                <img
-                  src="assets/img/portfolio/maps.png"
-                  class="img-fluid"
-                  alt="" />
-                <div class="portfolio-links">
-                  <a
-                    href="assets/img/portfolio/maps.png"
-                    data-gallery="portfolioGallery"
-                    class="portfolio-lightbox"
-                    title="Location Tracker"
-                    ><i class="bx bx-plus"></i
-                  ></a>
-                  <a
-                    target="_blank"
-                    href="https://maps-z7mu.onrender.com/"
-                    title="More Details"
-                    ><i class="bx bx-link"></i
-                  ></a>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-              <div class="portfolio-wrap">
-                <img
-                  src="assets/img/portfolio/princeOfDealsBack.png"
-                  class="img-fluid"
-                  alt="" />
-                <div class="portfolio-links">
-                  <a
-                    href="assets/img/portfolio/princeOfDealsBack.png"
-                    data-gallery="portfolioGallery"
-                    class="portfolio-lightbox"
-                    title="E-commerce Website"
-                    ><i class="bx bx-plus"></i
-                  ></a>
-                  <a
-                    target="_blank"
-                    href="https://quickpick-ba3l.onrender.com"
-                    title="More Details"
-                    ><i class="bx bx-link"></i
-                  ></a>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-              <div class="portfolio-wrap">
-                <img
-                  src="assets/img/portfolio/react3.png"
-                  class="img-fluid"
-                  alt="" />
-                <div class="portfolio-links">
-                  <a
-                    href="assets/img/portfolio/react3.png"
-                    data-gallery="portfolioGallery"
-                    class="portfolio-lightbox"
-                    title="Pizzeria"
-                    ><i class="bx bx-plus"></i
-                  ></a>
-                  <a
-                    target="_blank"
-                    href="https://pizzeria-ysv7.onrender.com"
-                    title="More Details"
-                    ><i class="bx bx-link"></i
-                  ></a>
-                </div>
+                <p class="testimonial-text fst-italic">
+                  <i
+                    class="bx bxs-quote-alt-left quote-icon-left text-warning"></i>
+                  Working with Prince was smooth from start to finish. The
+                  deployment and backend logic were flawless. His ability to
+                  understand project requirements, communicate effectively, and
+                  deliver high-quality code made the entire process seamless.
+                  <i
+                    class="bx bxs-quote-alt-right quote-icon-right text-warning"></i>
+                </p>
               </div>
             </div>
           </div>
         </div>
-        <div class="btn-div">
-          <button class="btn11">
-            <a href="portfolio-details.html">Tap to see Details</a>
-          </button>
-        </div>
-      </section>, we have to make a testinomial section like this use different design just use this code as Reference.... make a Testinomial section that has 3 client's Feedback on my project currently use demo text for then I will provide you the actual text
-
-      -->
+      </section>
+      <!-- End Testimonials Section -->
 
       <!-- ======= Contact Section ======= -->
       <section
         id="contact"
-        class="contact">
+        class="contact section-bg">
         <div class="container">
           <div class="section-title">
             <h2>Contact</h2>
