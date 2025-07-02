@@ -10,7 +10,7 @@ function sendEmail(event) {
   };
 
   emailjs
-    .send('service_pysqauc', 'template_rwyib0p', parms)
+    .send('service_110r2ae', 'template_rwyib0p', parms)
     .then(() => {
       document.querySelector('.loading').style.display = 'none';
       Swal.fire({

@@ -43,6 +43,16 @@
       href="assets/css/style.css"
       rel="stylesheet" />
     <style>
+      html {
+        scroll-behavior: smooth;
+      }
+      /* #header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: auto;
+        overflow-y: auto;
+      } */
       /* Testimonials section */
       .testimonials .testimonial-item {
         transition: transform 0.3s ease;
@@ -61,6 +71,19 @@
         color: #ffd700; /* accent yellow */
         font-size: 20px;
         line-height: 0;
+      }
+      .nav-menu {
+        overflow-y: auto;
+        max-height: calc(100vh - 300px);
+        padding-right: 4px;
+      }
+      .nav-menu::-webkit-scrollbar {
+        width: 0;
+        background: transparent;
+      }
+      .nav-menu {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
       }
     </style>
   </head>
@@ -101,7 +124,7 @@
               ><i class="bx bxl-gmail"></i
             ></a>
             <a
-              href="https://www.instagram.com/prince20.02?igsh=MXM2ZjEzbm0wbHkwbw=="
+              href="https://www.instagram.com/prince16.03?igsh=MXM2ZjEzbm0wbHkwbw=="
               class="instagram"
               ><i class="bx bxl-instagram"></i
             ></a>
@@ -125,44 +148,65 @@
             <li>
               <a
                 href="#hero"
-                class="nav-link scrollto active"
-                ><i class="bx bx-home"></i> <span>Home</span></a
-              >
+                class="nav-link scrollto active">
+                <i class="bx bx-home"></i> <span>Home</span>
+              </a>
             </li>
             <li>
               <a
                 href="#about"
-                class="nav-link scrollto"
-                ><i class="bx bx-user"></i> <span>About</span></a
-              >
+                class="nav-link scrollto">
+                <i class="bx bx-user"></i> <span>About</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="#facts"
+                class="nav-link scrollto">
+                <i class="bx bx-info-circle"></i> <span>Fact</span>
+              </a>
             </li>
             <li>
               <a
                 href="#blogs-notes"
-                class="nav-link scrollto"
-                ><i class="bx bx-server"></i> <span>Blogs</span></a
-              >
+                class="nav-link scrollto">
+                <i class="bx bx-server"></i> <span>Blogs</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="#skills"
+                class="nav-link scrollto">
+                <i class="bx bx-bulb"></i> <span>Skills</span>
+              </a>
             </li>
             <li>
               <a
                 href="#resume"
-                class="nav-link scrollto"
-                ><i class="bx bx-file-blank"></i> <span>Resume</span></a
-              >
+                class="nav-link scrollto">
+                <i class="bx bx-file-blank"></i> <span>Resume</span>
+              </a>
             </li>
             <li>
               <a
                 href="#portfolio"
-                class="nav-link scrollto"
-                ><i class="bx bx-book-content"></i> <span>Projects</span></a
-              >
+                class="nav-link scrollto">
+                <i class="bx bx-book-content"></i> <span>Projects</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="#testimonials"
+                class="nav-link scrollto">
+                <i class="bx bx-user-voice"></i> <span>Testimonials</span>
+              </a>
             </li>
             <li>
               <a
                 href="#contact"
-                class="nav-link scrollto"
-                ><i class="bx bx-envelope"></i> <span>Contact</span></a
-              >
+                class="nav-link scrollto">
+                <i class="bx bx-envelope"></i> <span>Contact</span>
+              </a>
             </li>
           </ul>
         </nav>
@@ -1140,7 +1184,7 @@
 
       <!-- ======= Testimonials Section ======= -->
       <section
-        id="testimonial"
+        id="testimonials"
         class="testimonials py-5">
         <div class="container">
           <div
@@ -1305,8 +1349,8 @@
                   <i class="bi bi-instagram"></i>
                   <h4>Instagram:</h4>
                   <a
-                    href="https://www.instagram.com/prince20.02?igsh=MXM2ZjEzbm0wbHkwbw=="
-                    ><p>prince20.02</p></a
+                    href="https://www.instagram.com/prince16.03?igsh=MXM2ZjEzbm0wbHkwbw=="
+                    ><p>prince16.03</p></a
                   >
                 </div>
                 <!-- <iframe
@@ -1328,7 +1372,10 @@
                   I'm always open to new opportunities—just drop a message:
                 </p>
               </div>
-              <form class="php-email-form">
+              <!-- Actual Form -->
+              <form
+                class="php-email-form"
+                onsubmit="sendEmail(event)">
                 <div class="row">
                   <div class="form-group col-md-6">
                     <label for="name">Your Name</label>
@@ -1340,7 +1387,7 @@
                       required />
                   </div>
                   <div class="form-group col-md-6">
-                    <label for="name">Your Email</label>
+                    <label for="email">Your Email</label>
                     <input
                       type="email"
                       class="form-control"
@@ -1349,8 +1396,9 @@
                       required />
                   </div>
                 </div>
+
                 <div class="form-group">
-                  <label for="name">Subject</label>
+                  <label for="subject">Subject</label>
                   <input
                     type="text"
                     class="form-control"
@@ -1358,8 +1406,9 @@
                     id="subject"
                     required />
                 </div>
+
                 <div class="form-group">
-                  <label for="name">Message</label>
+                  <label for="message">Message</label>
                   <textarea
                     id="msg"
                     class="form-control"
@@ -1367,30 +1416,15 @@
                     rows="10"
                     required></textarea>
                 </div>
-                <p
-                  style="color: rgb(40, 235, 40)"
-                  class="form-messege11"></p>
-                <!-- <div class="my-3">
-                  <div
-                    class="loading"
-                    style="display: none">
-                    Loading...
-                  </div>
-                  <div
-                    class="error-message"
-                    style="display: none"></div>
-                  <div
-                    class="sent-message"
-                    style="display: none">
-                    Your message has been sent. Thank you!
-                  </div>
-                </div> -->
+
+                <div
+                  class="loading"
+                  style="display: none">
+                  Loading...
+                </div>
+
                 <div class="text-center">
-                  <button
-                    onclick="sendWA()"
-                    type="submit">
-                    Send Message
-                  </button>
+                  <button type="submit">Send Message</button>
                 </div>
               </form>
             </div>
@@ -1418,53 +1452,16 @@
       title="Back to top"
       ><i class="bi bi-arrow-up-short"></i
     ></a>
-    <script>
-      function sendWA() {
-        var phoneNumber = '+916265307739';
-        var name = document.querySelector('input[name="name"]').value;
-        var email = document.querySelector('input[name="email"]').value;
-        var subject = document.querySelector('input[name="subject"]').value;
-        var message = document.querySelector('textarea[name="message"]').value;
-        var para = document.querySelector('.form-messege11');
-
-        var url =
-          'https://wa.me/' +
-          phoneNumber +
-          '?text=' +
-          'Name: ' +
-          encodeURIComponent(name) +
-          '%0a' +
-          'Email: ' +
-          encodeURIComponent(email) +
-          '%0a' +
-          'Subject: ' +
-          encodeURIComponent(subject) +
-          '%0a' +
-          'Message: ' +
-          encodeURIComponent(message);
-
-        para.innerHTML = 'Redirecting to WhatsApp...';
-        para.style.display = 'block';
-
-        // Hide after 5 seconds
-        setTimeout(function () {
-          para.innerHTML = '';
-          para.style.display = 'none';
-        }, 5000);
-
-        window.open(url, '_blank').focus();
-      }
-    </script>
     <script
       type="text/javascript"
       src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <!-- <script type="text/javascript">
+    <script type="text/javascript">
       (function () {
         emailjs.init({
-          publicKey: 'rPQ2xd9-2HLpWgmp4',
+          publicKey: '_xiLlePxebuyjWhU9',
         });
       })();
-    </script> -->
+    </script>
     <script src="./assets/js/email.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
