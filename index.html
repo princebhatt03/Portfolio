@@ -135,6 +135,12 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
       }
+      #messages {
+        max-height: 400px;
+        overflow-y: auto;
+        overflow-x: hidden; /* ✅ Prevent horizontal scroll */
+        padding: 10px;
+      }
     </style>
   </head>
   <body>
@@ -1569,7 +1575,38 @@
         </div>
       </div>
     </footer>
+
+    <!-- End Footer -->
+
+    <!-- Script for Gemini API Key -->
+
     <script>
+      const promptPrefix = `
+You are an AI assistant for Prince Bhatt.
+
+Here is everything you know about Prince:
+- Full Name: Prince Bhatt
+- Role: Full Stack Web Developer
+- Degree: B.Tech in IoT from Samrat Ashok Technological Institute, Vidisha
+- Tech Stack:
+  - Frontend: HTML, CSS, JavaScript, React
+  - Backend: Node.js, Express.js
+  - Database: MongoDB, SQL
+  - Tools: Git, GitHub, Postman, VS Code, Render
+  - Languages: Java, JavaScript
+- Favorite Project: UrbanKart (MERN E-commerce)
+  - Features: JWT & Google OAuth, role-based auth, admin dashboard, Razorpay integration
+- Other Projects:
+  - Real-time pizza delivery site (Pizzeria)
+  - Meta Photos (Google Photos clone)
+  - Multiple Freelance and Internship Projects
+- Internships:
+  1. Quasar Digital Solutions – UI Development
+  2. AUXES IT Solutions – Full Stack Intern, built api.auxes.in
+
+Always answer questions related to Prince based on this data.
+`;
+
       const chatToggle = document.getElementById('chat-toggle');
       const chatBox = document.getElementById('chat-box');
       const closeChat = document.getElementById('close-chat');
@@ -1588,10 +1625,10 @@
       closeChat.addEventListener('click', () => {
         chatBox.classList.add('d-none');
         chatToggle.classList.remove('d-none');
-        messages.innerHTML = ''; // optional: clear chat on close
+        messages.innerHTML = ''; // Clear chat on close
       });
 
-      // Send message on Enter
+      // Send on Enter
       userInput.addEventListener('keypress', e => {
         if (e.key === 'Enter') {
           e.preventDefault();
@@ -1599,16 +1636,56 @@
         }
       });
 
+      // Send on click
       sendBtn.addEventListener('click', sendMessage);
 
+      function formatTextInLines(text, wordsPerLine = 5) {
+        const words = text.split(' ');
+        const lines = [];
+
+        for (let i = 0; i < words.length; i += wordsPerLine) {
+          lines.push(words.slice(i, i + wordsPerLine).join(' '));
+        }
+
+        return lines.join('<br>');
+      }
+
+      // Append message
       function appendMessage(sender, text, type = 'secondary') {
         const msg = document.createElement('div');
         msg.className = `mb-2 ${sender === 'You' ? 'text-end' : 'text-start'}`;
-        msg.innerHTML = `<span class="badge bg-${type}">${sender}: ${text}</span>`;
+
+        const bubble = document.createElement('div');
+        bubble.className = `badge bg-${type}`;
+
+        // 👉 Force a new line after every 5 words
+        const words = text.split(' ');
+        const lines = [];
+        for (let i = 0; i < words.length; i += 5) {
+          lines.push(words.slice(i, i + 5).join(' '));
+        }
+
+        const formattedText = lines.join('<br>');
+
+        // Style the chat bubble
+        bubble.style.whiteSpace = 'pre-wrap';
+        bubble.style.wordWrap = 'break-word';
+        bubble.style.wordBreak = 'break-word';
+        bubble.style.maxWidth = '300px';
+        bubble.style.display = 'inline-block';
+        bubble.style.textAlign = 'left';
+        bubble.style.lineHeight = '1.6';
+        bubble.style.padding = '10px 14px';
+        bubble.style.fontSize = '14px';
+        bubble.style.borderRadius = '12px';
+
+        bubble.innerHTML = `<strong>${sender}:</strong><br>${formattedText}`;
+        msg.appendChild(bubble);
         messages.appendChild(msg);
         messages.scrollTop = messages.scrollHeight;
       }
 
+      // Send message and get Gemini response
       async function sendMessage() {
         const userText = userInput.value.trim();
         if (!userText) return;
@@ -1619,71 +1696,83 @@
         sendBtn.disabled = true;
 
         const response = await callGeminiAPI(userText);
-        appendMessage('Prince', response);
+
+        // 👉 Format the response into 5-word lines
+        const formattedResponse = formatTextInLines(response, 5);
+
+        await typeText('Prince', formattedResponse);
 
         userInput.disabled = false;
         sendBtn.disabled = false;
         userInput.focus();
       }
 
-      async function callGeminiAPI(promptText) {
-        const BACKEND_URL = 'http://localhost:5000/chat';
+      // Call Node.js + Gemini backend
+      async function callGeminiAPI(message) {
+        const BACKEND_URL =
+          'https://portfolio-backend-six-puce.vercel.app/api/chat'; // ✅ Updated to live backend
+
         try {
           const res = await fetch(BACKEND_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt: promptText }),
+            body: JSON.stringify({ message }),
           });
 
-          if (!res.ok) return 'Server error. Try again.';
+          if (!res.ok) return '⚠️ Server error. Try again later.';
           const data = await res.json();
-          return data.reply || 'No reply.';
+          return data.reply || 'No reply from Gemini.';
         } catch (err) {
-          console.error('Error:', err);
-          return 'Error contacting server.';
+          console.error('Fetch error:', err);
+          return '⚠️ Failed to reach the server.';
         }
       }
 
-      // 🔠 Typing animation effect
-      function typeText(sender, fullText, delay = 50) {
-        return new Promise(resolve => {
-          const span = document.createElement('span');
-          const msgWrapper = document.createElement('div');
-          msgWrapper.className = 'mb-2 text-start';
-          span.className = 'badge bg-secondary';
-          span.innerHTML = `${sender}: `;
-          msgWrapper.appendChild(span);
-          messages.appendChild(msgWrapper);
+      // Typing animation
+      async function typeText(sender, htmlText) {
+        const msg = document.createElement('div');
+        msg.className = `mb-2 ${sender === 'You' ? 'text-end' : 'text-start'}`;
 
-          let index = 0;
-          const typeInterval = setInterval(() => {
-            span.innerHTML += fullText.charAt(index);
-            index++;
-            messages.scrollTop = messages.scrollHeight;
-            if (index >= fullText.length) {
-              clearInterval(typeInterval);
-              resolve();
-            }
-          }, delay);
-        });
+        const bubble = document.createElement('div');
+        bubble.className = `badge bg-secondary`;
+        bubble.style.whiteSpace = 'pre-wrap';
+        bubble.style.wordWrap = 'break-word';
+        bubble.style.wordBreak = 'break-word';
+        bubble.style.maxWidth = '300px';
+        bubble.style.display = 'inline-block';
+        bubble.style.textAlign = 'left';
+        bubble.style.lineHeight = '1.6';
+        bubble.style.padding = '10px 14px';
+        bubble.style.fontSize = '14px';
+        bubble.style.borderRadius = '12px';
+
+        msg.appendChild(bubble);
+        messages.appendChild(msg);
+
+        let i = 0;
+        while (i < htmlText.length) {
+          if (htmlText.slice(i, i + 4) === '<br>') {
+            bubble.innerHTML += '<br>';
+            i += 4;
+          } else {
+            bubble.innerHTML += htmlText[i];
+            i++;
+          }
+          messages.scrollTop = messages.scrollHeight;
+          await new Promise(resolve => setTimeout(resolve, 10)); // typing speed
+        }
       }
 
-      // 🟢 On chat open, show these
+      // Intro message
       async function startInitialMessages() {
-        messages.innerHTML = ''; // Clear old messages
-        await typeText('Prince', 'Hello');
-        await new Promise(resolve => setTimeout(resolve, 500));
-        await typeText('Prince', 'How can I help you?');
+        messages.innerHTML = ''; // Clear previous messages
+        await typeText('Prince', '👋 Hello!');
+        await new Promise(resolve => setTimeout(resolve, 400));
+        await typeText('Prince', 'How can I assist you today?');
       }
     </script>
 
-    <!-- End  Footer -->
-    <!-- <a
-      href="#"
-      class="back-to-top d-flex align-items-center justify-content-center"
-      title="Back to top"
-      ><i class="bi bi-arrow-up-short"></i
-    ></a> -->
+    <!-- Script for Email -->
     <script
       type="text/javascript"
       src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
