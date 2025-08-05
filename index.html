@@ -1639,21 +1639,37 @@
     <script>
       window.addEventListener('load', () => {
         const hint = document.getElementById('chat-hint');
+        const chatBox = document.getElementById('chat-box');
 
-        // 🔹 Show immediately on load
-        hint.style.display = 'block';
-        setTimeout(() => {
-          hint.style.display = 'none';
-        }, 4000); // Hide after 4 seconds
+        let hintCount = 0;
+        const maxHints = 5;
 
-        // 🔁 Then repeat every 6 seconds
-        setInterval(() => {
-          hint.style.display = 'block';
+        function showHintIfChatClosed() {
+          if (hintCount >= maxHints) return;
 
-          setTimeout(() => {
-            hint.style.display = 'none';
-          }, 4000); // Hide after 4 seconds
-        }, 8000); // Show every 8 seconds
+          if (chatBox.classList.contains('d-none')) {
+            hint.style.display = 'block';
+            hintCount++;
+
+            setTimeout(() => {
+              hint.style.display = 'none';
+            }, 4000); // Hide after 4 seconds
+          } else {
+            hint.style.display = 'none'; // Hide immediately if chat is open
+          }
+        }
+
+        // Show once on page load
+        showHintIfChatClosed();
+
+        // Repeat every 8 seconds, up to 5 times
+        const intervalId = setInterval(() => {
+          if (hintCount >= maxHints) {
+            clearInterval(intervalId); // Stop after 5 times
+            return;
+          }
+          showHintIfChatClosed();
+        }, 8000);
       });
     </script>
 
@@ -1709,7 +1725,6 @@
         bubble.style.whiteSpace = 'pre-wrap';
         bubble.style.wordWrap = 'break-word';
         bubble.style.wordBreak = 'break-word';
-        bubble.style.textAlign = 'justify';
         bubble.style.maxWidth = '400px';
         bubble.style.display = 'inline-block';
         bubble.style.textAlign = 'left';
@@ -1774,6 +1789,11 @@
 He is proficient in JavaScript, Java, Node.js, React, MongoDB, SQL, and TailwindCSS.
 Prince has created projects like UrbanKart (an advanced MERN E-Commerce platform with Razorpay & Google OAuth), Meta Photos (a Google Photos clone), and Pizzeria (a real-time pizza delivery system).
 He has also completed internships with Quasar Digital Solutions and AUXES IT Solutions.`,
+
+          'who is vanshi': `Vanshi is a talented individual with a passion for technology and innovation. She's Prince's best friend. She's too pretty and smart. Her eyes are so beautiful and attractive. Her smile is so cute and charming.
+She is skilled in various programming languages and frameworks, making her a valuable asset in any development team.
+Vanshi has worked on several projects, showcasing her ability to create efficient and user-friendly applications.
+Her dedication to continuous learning and improvement sets her apart in the tech industry.`,
 
           'what is urbankart': `UrbanKart is an advanced E-Commerce web app built by Prince Bhatt using the MERN stack.
 It features JWT and Google OAuth, role-based authentication, an admin dashboard, and Razorpay integration.
