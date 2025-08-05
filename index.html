@@ -46,6 +46,60 @@
       html {
         scroll-behavior: smooth;
       }
+      #chat-widget {
+        position: fixed;
+        z-index: 1000;
+        bottom: 20px;
+        right: 20px;
+        font-family: sans-serif;
+      }
+      .message {
+        margin: 8px 0;
+        padding: 8px;
+        border-radius: 6px;
+      }
+
+      #chat-toggle {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 50px;
+        cursor: pointer;
+      }
+
+      #chat-box {
+        width: 300px;
+        max-height: 400px;
+        background: #fff;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 10px;
+        margin-top: 10px;
+        overflow-y: auto;
+      }
+
+      #chat-box.hidden {
+        display: none;
+      }
+
+      #messages {
+        height: 300px;
+        overflow-y: auto;
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+
+      #user-input {
+        width: 70%;
+        padding: 5px;
+      }
+
+      #send-btn {
+        width: 25%;
+        padding: 5px;
+      }
+
       .testimonials .testimonial-item {
         transition: transform 0.3s ease;
       }
@@ -229,6 +283,21 @@
     <!-- End Hero -->
 
     <main id="main">
+      <!-- Quick Chat Button -->
+      <div id="chat-widget">
+        <button id="chat-toggle">💬 Chat</button>
+        <div
+          id="chat-box"
+          class="hidden">
+          <div id="messages"></div>
+          <input
+            type="text"
+            id="user-input"
+            placeholder="Ask something..." />
+          <button id="send-btn">Send</button>
+        </div>
+      </div>
+
       <!-- ======= About Section ======= -->
       <section
         id="about"
@@ -1453,6 +1522,85 @@
         </div>
       </div>
     </footer>
+
+    <script>
+      const BACKEND_URL = 'http://localhost:5000/chat';
+
+      // Select DOM elements
+      const chatToggle = document.getElementById('chat-toggle');
+      const chatBox = document.getElementById('chat-box');
+      const sendBtn = document.getElementById('send-btn');
+      const userInput = document.getElementById('user-input');
+      const messages = document.getElementById('messages');
+
+      // Toggle chat box visibility
+      chatToggle.addEventListener('click', () => {
+        chatBox.classList.toggle('hidden');
+      });
+
+      // Handle Enter key and Send button
+      userInput.addEventListener('keypress', e => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
+
+      sendBtn.addEventListener('click', sendMessage);
+
+      // Append message to chat
+      function appendMessage(sender, text) {
+        const msg = document.createElement('div');
+        msg.className = 'message';
+        msg.innerHTML = `<strong>${sender}:</strong> ${text}`;
+        messages.appendChild(msg);
+        messages.scrollTop = messages.scrollHeight;
+      }
+
+      // Handle sending message
+      async function sendMessage() {
+        const userText = userInput.value.trim();
+        if (!userText) return;
+
+        appendMessage('You', userText);
+        userInput.value = '';
+        userInput.disabled = true;
+        sendBtn.disabled = true;
+
+        const geminiResponse = await callGeminiAPI(userText);
+
+        appendMessage('Gemini', geminiResponse);
+
+        userInput.disabled = false;
+        sendBtn.disabled = false;
+        userInput.focus();
+      }
+
+      // Call Gemini backend API
+      async function callGeminiAPI(promptText) {
+        try {
+          const response = await fetch(BACKEND_URL, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ prompt: promptText }),
+          });
+
+          if (!response.ok) {
+            console.error('Server error:', response.status);
+            return 'Server error. Try again.';
+          }
+
+          const data = await response.json();
+          return data.reply || 'No reply from Gemini.';
+        } catch (error) {
+          console.error('Error:', error);
+          return 'Error contacting backend.';
+        }
+      }
+    </script>
+
     <!-- End  Footer -->
     <a
       href="#"
@@ -1483,6 +1631,3 @@
     <script src="assets/js/main.js"></script>
   </body>
 </html>
-
-
-
