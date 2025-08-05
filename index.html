@@ -60,7 +60,7 @@
       }
 
       #chat-toggle {
-        background-color: #4caf50;
+        background-color: #149ddd;
         color: white;
         border: none;
         padding: 10px 16px;
@@ -283,18 +283,65 @@
     <!-- End Hero -->
 
     <main id="main">
-      <!-- Quick Chat Button -->
-      <div id="chat-widget">
-        <button id="chat-toggle">💬 Chat</button>
+      <!-- Quick Chat Widget -->
+      <div
+        id="chat-widget"
+        class="position-fixed bottom-0 end-0 m-4 z-3">
+        <!-- Toggle Chat Button -->
+        <button
+          id="chat-toggle"
+          class="btn btn-success rounded-circle shadow-lg"
+          style="width: 60px; height: 60px"
+          title="Open Chat">
+          <i class="bi bi-chat-dots fs-4"></i>
+        </button>
+
+        <!-- Chat Box -->
         <div
           id="chat-box"
-          class="hidden">
-          <div id="messages"></div>
-          <input
-            type="text"
-            id="user-input"
-            placeholder="Ask something..." />
-          <button id="send-btn">Send</button>
+          class="card shadow-lg d-none"
+          style="width: 320px; max-height: 500px">
+          <!-- Header -->
+          <div
+            class="card-header bg-primary text-white d-flex align-items-center">
+            <img
+              src="assets/img/profile.jpg"
+              class="rounded-circle me-2"
+              alt="Profile"
+              width="40"
+              height="40" />
+            <div>
+              <h6 class="mb-0">Quick Chat</h6>
+            </div>
+            <button
+              class="btn btn-sm btn-light ms-auto"
+              id="close-chat"
+              title="Close Chat">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+
+          <!-- Messages -->
+          <div
+            id="messages"
+            class="card-body overflow-auto bg-light"
+            style="max-height: 300px"></div>
+
+          <!-- Input Area -->
+          <div class="card-footer p-2">
+            <div class="input-group">
+              <input
+                type="text"
+                id="user-input"
+                class="form-control"
+                placeholder="Type your message..." />
+              <button
+                id="send-btn"
+                class="btn btn-primary">
+                <i class="bi bi-send-fill"></i>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1522,23 +1569,29 @@
         </div>
       </div>
     </footer>
-
     <script>
-      const BACKEND_URL = 'http://localhost:5000/chat';
-
-      // Select DOM elements
       const chatToggle = document.getElementById('chat-toggle');
       const chatBox = document.getElementById('chat-box');
+      const closeChat = document.getElementById('close-chat');
       const sendBtn = document.getElementById('send-btn');
       const userInput = document.getElementById('user-input');
       const messages = document.getElementById('messages');
 
-      // Toggle chat box visibility
+      // Toggle open chat
       chatToggle.addEventListener('click', () => {
-        chatBox.classList.toggle('hidden');
+        chatBox.classList.remove('d-none');
+        chatToggle.classList.add('d-none');
+        startInitialMessages();
       });
 
-      // Handle Enter key and Send button
+      // Close chat
+      closeChat.addEventListener('click', () => {
+        chatBox.classList.add('d-none');
+        chatToggle.classList.remove('d-none');
+        messages.innerHTML = ''; // optional: clear chat on close
+      });
+
+      // Send message on Enter
       userInput.addEventListener('keypress', e => {
         if (e.key === 'Enter') {
           e.preventDefault();
@@ -1548,66 +1601,89 @@
 
       sendBtn.addEventListener('click', sendMessage);
 
-      // Append message to chat
-      function appendMessage(sender, text) {
+      function appendMessage(sender, text, type = 'secondary') {
         const msg = document.createElement('div');
-        msg.className = 'message';
-        msg.innerHTML = `<strong>${sender}:</strong> ${text}`;
+        msg.className = `mb-2 ${sender === 'You' ? 'text-end' : 'text-start'}`;
+        msg.innerHTML = `<span class="badge bg-${type}">${sender}: ${text}</span>`;
         messages.appendChild(msg);
         messages.scrollTop = messages.scrollHeight;
       }
 
-      // Handle sending message
       async function sendMessage() {
         const userText = userInput.value.trim();
         if (!userText) return;
 
-        appendMessage('You', userText);
+        appendMessage('You', userText, 'primary');
         userInput.value = '';
         userInput.disabled = true;
         sendBtn.disabled = true;
 
-        const geminiResponse = await callGeminiAPI(userText);
-
-        appendMessage('Gemini', geminiResponse);
+        const response = await callGeminiAPI(userText);
+        appendMessage('Prince', response);
 
         userInput.disabled = false;
         sendBtn.disabled = false;
         userInput.focus();
       }
 
-      // Call Gemini backend API
       async function callGeminiAPI(promptText) {
+        const BACKEND_URL = 'http://localhost:5000/chat';
         try {
-          const response = await fetch(BACKEND_URL, {
+          const res = await fetch(BACKEND_URL, {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ prompt: promptText }),
           });
 
-          if (!response.ok) {
-            console.error('Server error:', response.status);
-            return 'Server error. Try again.';
-          }
-
-          const data = await response.json();
-          return data.reply || 'No reply from Gemini.';
-        } catch (error) {
-          console.error('Error:', error);
-          return 'Error contacting backend.';
+          if (!res.ok) return 'Server error. Try again.';
+          const data = await res.json();
+          return data.reply || 'No reply.';
+        } catch (err) {
+          console.error('Error:', err);
+          return 'Error contacting server.';
         }
+      }
+
+      // 🔠 Typing animation effect
+      function typeText(sender, fullText, delay = 50) {
+        return new Promise(resolve => {
+          const span = document.createElement('span');
+          const msgWrapper = document.createElement('div');
+          msgWrapper.className = 'mb-2 text-start';
+          span.className = 'badge bg-secondary';
+          span.innerHTML = `${sender}: `;
+          msgWrapper.appendChild(span);
+          messages.appendChild(msgWrapper);
+
+          let index = 0;
+          const typeInterval = setInterval(() => {
+            span.innerHTML += fullText.charAt(index);
+            index++;
+            messages.scrollTop = messages.scrollHeight;
+            if (index >= fullText.length) {
+              clearInterval(typeInterval);
+              resolve();
+            }
+          }, delay);
+        });
+      }
+
+      // 🟢 On chat open, show these
+      async function startInitialMessages() {
+        messages.innerHTML = ''; // Clear old messages
+        await typeText('Prince', 'Hello');
+        await new Promise(resolve => setTimeout(resolve, 500));
+        await typeText('Prince', 'How can I help you?');
       }
     </script>
 
     <!-- End  Footer -->
-    <a
+    <!-- <a
       href="#"
       class="back-to-top d-flex align-items-center justify-content-center"
       title="Back to top"
       ><i class="bi bi-arrow-up-short"></i
-    ></a>
+    ></a> -->
     <script
       type="text/javascript"
       src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
