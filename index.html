@@ -1639,11 +1639,21 @@
     <script>
       window.addEventListener('load', () => {
         const hint = document.getElementById('chat-hint');
-        hint.style.display = 'block';
 
+        // 🔹 Show immediately on load
+        hint.style.display = 'block';
         setTimeout(() => {
           hint.style.display = 'none';
         }, 4000); // Hide after 4 seconds
+
+        // 🔁 Then repeat every 6 seconds
+        setInterval(() => {
+          hint.style.display = 'block';
+
+          setTimeout(() => {
+            hint.style.display = 'none';
+          }, 4000); // Hide after 4 seconds
+        }, 8000); // Show every 8 seconds
       });
     </script>
 
