@@ -371,7 +371,6 @@
                   border-left: 10px solid transparent;
                   border-right: 10px solid transparent;
                   border-top: 10px solid #f0f0f0;
-                  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
                 "></div>
             </div>
 
@@ -1702,10 +1701,10 @@
           }
         }
 
-        // Show the hint 2 seconds after page load
+        // Show the hint 3 seconds after page load
         setTimeout(() => {
           showHintIfChatClosed();
-        }, 2000);
+        }, 3000);
 
         // Hide the hint when user clicks ×
         closeHintBtn.addEventListener('click', () => {
