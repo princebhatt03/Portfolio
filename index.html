@@ -303,17 +303,63 @@
                 top: -70px;
                 left: -80px;
                 text-align: center;
-                background-color: #040b14;
-                color: white;
+                background-color: #f0f0f0;
+                color: rgb(4, 11, 20);
                 padding: 10px 15px;
                 border-radius: 10px;
                 z-index: 999;
                 display: none;
                 width: auto;
                 font-size: 0.9rem;
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
               ">
               Chat with AI Assistant
+
+              <!-- Stylish Close Icon Button -->
+              <button
+                id="close-hint"
+                aria-label="Close"
+                style="
+                  position: absolute;
+                  top: -10px;
+                  background-color: rgb(4, 11, 20);
+                  border: none;
+                  border-radius: 50%;
+                  width: 24px;
+                  height: 24px;
+                  display: flex;
+                  cursor: alias;
+                  align-items: center;
+                  justify-content: center;
+                  cursor: pointer;
+                  transition: background-color 0.2s ease;
+                  left: 125px;
+                  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+                ">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <line
+                    x1="18"
+                    y1="6"
+                    x2="6"
+                    y2="18"></line>
+                  <line
+                    x1="6"
+                    y1="6"
+                    x2="18"
+                    y2="18"></line>
+                </svg>
+              </button>
+
+              <!-- Arrow -->
               <div
                 style="
                   position: absolute;
@@ -324,7 +370,8 @@
                   height: 0;
                   border-left: 10px solid transparent;
                   border-right: 10px solid transparent;
-                  border-top: 10px solid #040b14;
+                  border-top: 10px solid #f0f0f0;
+                  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
                 "></div>
             </div>
 
@@ -1635,43 +1682,52 @@
 
     <!-- End Footer -->
 
-    <!-- Script for Gemini API Key -->
+    <!-- Script for Modal Close -->
+
     <script>
       window.addEventListener('load', () => {
         const hint = document.getElementById('chat-hint');
         const chatBox = document.getElementById('chat-box');
+        const closeHintBtn = document.getElementById('close-hint');
 
-        let hintCount = 0;
-        const maxHints = 5;
+        let hintClosedManually = false;
 
         function showHintIfChatClosed() {
-          if (hintCount >= maxHints) return;
+          if (hintClosedManually) return;
 
           if (chatBox.classList.contains('d-none')) {
             hint.style.display = 'block';
-            hintCount++;
-
-            setTimeout(() => {
-              hint.style.display = 'none';
-            }, 4000); // Hide after 4 seconds
           } else {
-            hint.style.display = 'none'; // Hide immediately if chat is open
+            hint.style.display = 'none';
           }
         }
 
-        // Show once on page load
-        showHintIfChatClosed();
-
-        // Repeat every 8 seconds, up to 5 times
-        const intervalId = setInterval(() => {
-          if (hintCount >= maxHints) {
-            clearInterval(intervalId); // Stop after 5 times
-            return;
-          }
+        // Show the hint 2 seconds after page load
+        setTimeout(() => {
           showHintIfChatClosed();
-        }, 8000);
+        }, 2000);
+
+        // Hide the hint when user clicks ×
+        closeHintBtn.addEventListener('click', () => {
+          hint.style.display = 'none';
+          hintClosedManually = true;
+        });
+
+        // Hide hint automatically if chat is opened
+        const observer = new MutationObserver(() => {
+          if (!chatBox.classList.contains('d-none')) {
+            hint.style.display = 'none';
+          }
+        });
+
+        observer.observe(chatBox, {
+          attributes: true,
+          attributeFilter: ['class'],
+        });
       });
     </script>
+
+    <!-- Script for Gemini API Key -->
 
     <script>
       const chatToggle = document.getElementById('chat-toggle');
