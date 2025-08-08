@@ -43,6 +43,24 @@
       href="assets/css/style.css"
       rel="stylesheet" />
   </head>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    .nav-menu {
+      overflow-y: auto;
+      max-height: calc(100vh - 300px);
+      padding-right: 4px;
+    }
+    .nav-menu::-webkit-scrollbar {
+      width: 0;
+      background: transparent;
+    }
+    .nav-menu {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
   <body>
     <div id="preloader-active">
       <div class="preloader d-flex align-items-center justify-content-center">
@@ -57,11 +75,12 @@
       </div>
     </div>
     <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
+    <!-- ======= Navbar ======= -->
     <header id="header">
       <div class="d-flex flex-column">
         <div class="profile">
           <img
-            src="assets/img/profile-img.png"
+            src="assets/img/profile.jpg"
             alt=""
             class="img-fluid rounded-circle" />
           <h1 class="text-light"><a href="index.html">Prince Bhatt</a></h1>
@@ -100,52 +119,73 @@
           <ul>
             <li>
               <a
-                href="index.html"
-                class="nav-link scrollto active"
-                ><i class="bx bx-home"></i> <span>Home</span></a
-              >
+                href="index.html#hero"
+                class="nav-link scrollto active">
+                <i class="bx bx-home"></i> <span>Home</span>
+              </a>
             </li>
             <li>
               <a
-                href="index.html"
-                class="nav-link scrollto"
-                ><i class="bx bx-user"></i> <span>About</span></a
-              >
+                href="index.html#about"
+                class="nav-link scrollto">
+                <i class="bx bx-user"></i> <span>About</span>
+              </a>
             </li>
             <li>
               <a
-                href="index.html"
-                class="nav-link scrollto"
-                ><i class="bx bx-file-blank"></i> <span>Resume</span></a
-              >
+                href="index.html#facts"
+                class="nav-link scrollto">
+                <i class="bx bx-info-circle"></i> <span>Fact</span>
+              </a>
             </li>
             <li>
               <a
-                href="index.html"
-                class="nav-link scrollto"
-                ><i class="bx bx-book-content"></i> <span>Projects</span></a
-              >
+                href="index.html#blogs-notes"
+                class="nav-link scrollto">
+                <i class="bx bx-server"></i> <span>Blogs</span>
+              </a>
             </li>
-            <!-- <li>
-              <a
-                href="#services"
-                class="nav-link scrollto"
-                ><i class="bx bx-server"></i> <span>Services</span></a
-              >
-            </li> -->
             <li>
               <a
-                href="#contact"
-                class="nav-link scrollto"
-                ><i class="bx bx-envelope"></i> <span>Contact</span></a
-              >
+                href="index.html#skills"
+                class="nav-link scrollto">
+                <i class="bx bx-bulb"></i> <span>Skills</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="index.html#resume"
+                class="nav-link scrollto">
+                <i class="bx bx-file-blank"></i> <span>Resume</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="index.html#portfolio"
+                class="nav-link scrollto">
+                <i class="bx bx-book-content"></i> <span>Projects</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="index.html#testimonials"
+                class="nav-link scrollto">
+                <i class="bx bx-user-voice"></i> <span>Testimonials</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="index.html#contact"
+                class="nav-link scrollto">
+                <i class="bx bx-envelope"></i> <span>Contact</span>
+              </a>
             </li>
           </ul>
         </nav>
         <!-- .nav-menu -->
       </div>
     </header>
-    <!-- End Header -->
+    <!-- End Navbar -->
 
     <main id="main">
       <!-- Portfolio Projects & Blogs Section -->
