@@ -295,7 +295,7 @@
         class="position-fixed bottom-0 end-0 m-4 z-3">
         <div style="position: fixed; bottom: 30px; right: 30px; z-index: 9999">
           <div style="position: relative">
-            <!-- Hint bubble here -->
+            <!-- Hint bubble -->
             <div
               id="chat-hint"
               class="position-absolute"
@@ -315,7 +315,7 @@
               ">
               Chat with AI Assistant
 
-              <!-- Stylish Close Icon Button -->
+              <!-- Close Hint -->
               <button
                 id="close-hint"
                 aria-label="Close"
@@ -435,8 +435,19 @@
           </div>
 
           <!-- Input Area -->
-
           <div class="card-footer p-2">
+            <!-- Loading Spinner -->
+            <div
+              id="loading-spinner"
+              class="text-center my-2 d-none">
+              <div
+                class="spinner-border text-primary"
+                role="status"
+                style="width: 1.5rem; height: 1.5rem">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+
             <div class="input-group">
               <input
                 type="text"
@@ -449,6 +460,21 @@
                 style="background-color: #149ddd">
                 <i class="bi bi-send-fill"></i>
               </button>
+              <div
+                style="
+                  width: 100%;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  margin-top: 10px;
+                ">
+                <button
+                  id="stop-btn"
+                  style="display: none"
+                  class="btn btn-danger btn-sm">
+                  Stop Responding
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -1724,7 +1750,6 @@
     <!-- End Footer -->
 
     <!-- Script for Modal Close -->
-
     <script>
       window.addEventListener('load', () => {
         const hint = document.getElementById('chat-hint');
@@ -1768,8 +1793,7 @@
       });
     </script>
 
-    <!-- Script for Gemini API Key -->
-
+    <!-- Chat Script -->
     <script>
       const chatToggle = document.getElementById('chat-toggle');
       const chatBox = document.getElementById('chat-box');
@@ -1777,6 +1801,11 @@
       const sendBtn = document.getElementById('send-btn');
       const userInput = document.getElementById('user-input');
       const messages = document.getElementById('messages');
+      const stopBtn = document.getElementById('stop-btn');
+
+      let typingBubble = null; // store temporary typing bubble
+      let abortController = null; // for stopping fetch
+      let stopTyping = false; // for stopping typing animation
 
       // Toggle chat open
       chatToggle.addEventListener('click', () => {
@@ -1837,8 +1866,9 @@
         messages.scrollTop = messages.scrollHeight;
       }
 
-      // Typing animation
+      // Typing animation (for final AI message)
       async function typeText(sender, htmlText) {
+        stopTyping = false; // reset before typing
         const msg = document.createElement('div');
         msg.className = `mb-2 ${sender === 'You' ? 'text-end' : 'text-start'}`;
         const bubble = document.createElement('div');
@@ -1855,8 +1885,10 @@
         bubble.style.borderRadius = '12px';
         msg.appendChild(bubble);
         messages.appendChild(msg);
+
         let i = 0;
         while (i < htmlText.length) {
+          if (stopTyping) break; // stop immediately if requested
           if (htmlText.slice(i, i + 4) === '<br>') {
             bubble.innerHTML += '<br>';
             i += 4;
@@ -1866,6 +1898,40 @@
           }
           messages.scrollTop = messages.scrollHeight;
           await new Promise(resolve => setTimeout(resolve, 10));
+        }
+      }
+
+      // Show "Prince is typing..." bubble
+      function showTypingBubble() {
+        typingBubble = document.createElement('div');
+        typingBubble.className = `mb-2 text-start`;
+        const bubble = document.createElement('div');
+        bubble.className = `badge bg-light text-dark`;
+        bubble.style.maxWidth = '400px';
+        bubble.style.display = 'inline-block';
+        bubble.style.padding = '10px 14px';
+        bubble.style.fontSize = '14px';
+        bubble.style.borderRadius = '12px';
+        bubble.innerHTML = `<strong>Prince's AI Assistant:</strong><br><em>Generating response<span class="dots">...</span></em>`;
+        typingBubble.appendChild(bubble);
+        messages.appendChild(typingBubble);
+        messages.scrollTop = messages.scrollHeight;
+
+        // Animate dots (typing effect)
+        const dots = bubble.querySelector('.dots');
+        let count = 0;
+        typingBubble.interval = setInterval(() => {
+          count = (count + 1) % 4;
+          dots.textContent = '.'.repeat(count);
+        }, 500);
+      }
+
+      // Remove typing bubble
+      function removeTypingBubble() {
+        if (typingBubble) {
+          clearInterval(typingBubble.interval);
+          messages.removeChild(typingBubble);
+          typingBubble = null;
         }
       }
 
@@ -1912,7 +1978,7 @@ It’s used in modern web apps, especially with Node.js, to handle large volumes
         return answers[lower] || null;
       }
 
-      // Main message sender
+      // Main message sender (FIXED SINGLE FUNCTION)
       async function sendMessage() {
         const userText = userInput.value.trim();
         if (!userText) return;
@@ -1921,19 +1987,27 @@ It’s used in modern web apps, especially with Node.js, to handle large volumes
         userInput.value = '';
         userInput.disabled = true;
         sendBtn.disabled = true;
+        stopBtn.style.display = 'block'; // 👈 show Stop button
+
+        showTypingBubble(); // show typing animation
 
         const customReply = getCustomAnswer(userText);
+        let response;
+
         if (customReply) {
-          const formatted = formatTextInLines(customReply, 6);
-          await typeText('Prince', formatted);
+          removeTypingBubble();
+          response = customReply;
         } else {
-          const response = await callGeminiAPI(userText);
-          const formattedResponse = formatTextInLines(response, 6);
-          await typeText('Prince', formattedResponse);
+          response = await callGeminiAPI(userText);
+          removeTypingBubble();
         }
+
+        const formattedResponse = formatTextInLines(response, 6);
+        await typeText('Prince', formattedResponse);
 
         userInput.disabled = false;
         sendBtn.disabled = false;
+        stopBtn.style.display = 'none'; // 👈 hide Stop button after done
         userInput.focus();
       }
 
@@ -1950,20 +2024,39 @@ It’s used in modern web apps, especially with Node.js, to handle large volumes
       async function callGeminiAPI(message) {
         const BACKEND_URL =
           'https://portfolio-backend-six-puce.vercel.app/api/chat';
+
+        abortController = new AbortController();
         try {
           const res = await fetch(BACKEND_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message }),
+            signal: abortController.signal,
           });
           if (!res.ok) return '⚠️ Server error. Try again later.';
           const data = await res.json();
           return data.reply || 'No reply from Gemini.';
         } catch (err) {
+          if (err.name === 'AbortError') {
+            return '❌ Response stopped.';
+          }
           console.error('Fetch error:', err);
           return '⚠️ Failed to reach the server.';
         }
       }
+
+      // Stop responding function
+      function stopResponding() {
+        if (abortController) {
+          abortController.abort(); // cancel fetch
+        }
+        stopTyping = true; // stop typeText animation
+        removeTypingBubble();
+        stopBtn.style.display = 'none'; // hide stop button
+      }
+
+      // Stop button logic
+      stopBtn.addEventListener('click', stopResponding);
     </script>
 
     <!-- Script for Email -->
