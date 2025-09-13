@@ -1978,7 +1978,7 @@ It’s used in modern web apps, especially with Node.js, to handle large volumes
         return answers[lower] || null;
       }
 
-      // Main message sender (FIXED SINGLE FUNCTION)
+      // Main message sender
       async function sendMessage() {
         const userText = userInput.value.trim();
         if (!userText) return;
@@ -1987,9 +1987,9 @@ It’s used in modern web apps, especially with Node.js, to handle large volumes
         userInput.value = '';
         userInput.disabled = true;
         sendBtn.disabled = true;
-        stopBtn.style.display = 'block'; // 👈 show Stop button
+        stopBtn.style.display = 'block';
 
-        showTypingBubble(); // show typing animation
+        showTypingBubble(); 
 
         const customReply = getCustomAnswer(userText);
         let response;
@@ -2007,7 +2007,7 @@ It’s used in modern web apps, especially with Node.js, to handle large volumes
 
         userInput.disabled = false;
         sendBtn.disabled = false;
-        stopBtn.style.display = 'none'; // 👈 hide Stop button after done
+        stopBtn.style.display = 'none'; 
         userInput.focus();
       }
 
@@ -2048,11 +2048,11 @@ It’s used in modern web apps, especially with Node.js, to handle large volumes
       // Stop responding function
       function stopResponding() {
         if (abortController) {
-          abortController.abort(); // cancel fetch
+          abortController.abort(); 
         }
-        stopTyping = true; // stop typeText animation
+        stopTyping = true; 
         removeTypingBubble();
-        stopBtn.style.display = 'none'; // hide stop button
+        stopBtn.style.display = 'none'; 
       }
 
       // Stop button logic
