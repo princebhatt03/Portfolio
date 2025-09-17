@@ -9,14 +9,23 @@ function sendEmail(event) {
     message: document.getElementById('msg').value,
   };
 
+  // 1️⃣ Send email to YOU (admin notification)
   emailjs
-    .send('service_110r2ae', 'template_rwyib0p', parms)
+    .send('service_35hnrju', 'template_rwyib0p', parms)
+    .then(() => {
+      // 2️⃣ Send auto-reply to USER
+      return emailjs.send('service_35hnrju', 'template_m412l3f', {
+        to_name: parms.name,
+        to_email: parms.email,
+        user_message: parms.message,
+      });
+    })
     .then(() => {
       document.querySelector('.loading').style.display = 'none';
       Swal.fire({
         icon: 'success',
         title: 'Email Sent!',
-        text: 'Your email has been successfully sent.',
+        text: 'Your email has been successfully sent',
       });
     })
     .catch(error => {
