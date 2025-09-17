@@ -58,7 +58,9 @@
         padding: 8px;
         border-radius: 6px;
       }
-
+      /* #height-change {
+        bottom: 170px;
+      } */
       #chat-toggle {
         background-color: #149ddd;
         color: white;
@@ -289,6 +291,114 @@
     <!-- End Hero -->
 
     <main id="main">
+      <!-- Contact Widget -->
+      <div
+        id="contact-widget"
+        class="position-fixed bottom-0 end-0 m-4 z-3"
+        style="margin-bottom: 100px">
+        <div
+          id="height-change"
+          style="position: fixed; bottom: 170px; right: 30px; z-index: 9999">
+          <div style="position: relative">
+            <!-- Hint bubble for Contact -->
+            <div
+              id="contact-hint"
+              class="position-absolute"
+              style="
+                top: -70px;
+                left: -80px;
+                text-align: center;
+                background-color: #f0f0f0;
+                color: rgb(4, 11, 20);
+                padding: 10px 15px;
+                border-radius: 10px;
+                z-index: 999;
+                display: none;
+                width: auto;
+                font-size: 0.9rem;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+              ">
+              Drop your mail here
+
+              <!-- Close Hint -->
+              <button
+                id="close-contact-hint"
+                aria-label="Close"
+                style="
+                  position: absolute;
+                  top: -10px;
+                  background-color: rgb(4, 11, 20);
+                  border: none;
+                  border-radius: 50%;
+                  width: 24px;
+                  height: 24px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  cursor: pointer;
+                  transition: background-color 0.2s ease;
+                  left: 125px;
+                  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+                ">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <line
+                    x1="18"
+                    y1="6"
+                    x2="6"
+                    y2="18"></line>
+                  <line
+                    x1="6"
+                    y1="6"
+                    x2="18"
+                    y2="18"></line>
+                </svg>
+              </button>
+
+              <!-- Arrow -->
+              <div
+                style="
+                  position: absolute;
+                  bottom: -10px;
+                  left: 80%;
+                  transform: translateX(-50%);
+                  width: 0;
+                  height: 0;
+                  border-left: 10px solid transparent;
+                  border-right: 10px solid transparent;
+                  border-top: 10px solid #f0f0f0;
+                "></div>
+            </div>
+
+            <!-- Contact toggle button -->
+            <a
+              href="#contact"
+              id="contact-toggle"
+              class="btn btn-primary rounded-circle shadow-lg"
+              style="
+                width: 60px;
+                height: 60px;
+                background-color: #149ddd;
+                border: none;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              "
+              title="Drop your mail">
+              <i class="bx bx-envelope fs-4"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
       <!-- Quick Chat Widget -->
       <div
         id="chat-widget"
@@ -1749,6 +1859,74 @@
 
     <!-- End Footer -->
 
+    <script>
+      window.addEventListener('load', () => {
+        // --- Existing Chat Hint ---
+        const hint = document.getElementById('chat-hint');
+        const chatBox = document.getElementById('chat-box');
+        const closeHintBtn = document.getElementById('close-hint');
+        let hintClosedManually = false;
+
+        function showHintIfChatClosed() {
+          if (hintClosedManually) return;
+          if (chatBox.classList.contains('d-none')) {
+            hint.style.display = 'block';
+          } else {
+            hint.style.display = 'none';
+          }
+        }
+
+        setTimeout(() => {
+          showHintIfChatClosed();
+        }, 4000);
+
+        closeHintBtn.addEventListener('click', () => {
+          hint.style.display = 'none';
+          hintClosedManually = true;
+        });
+
+        const observer = new MutationObserver(() => {
+          if (!chatBox.classList.contains('d-none')) {
+            hint.style.display = 'none';
+          }
+        });
+
+        observer.observe(chatBox, {
+          attributes: true,
+          attributeFilter: ['class'],
+        });
+
+        // --- New Contact Hint ---
+        const contactHint = document.getElementById('contact-hint');
+        const closeContactHint = document.getElementById('close-contact-hint');
+        const contactBtn = document.getElementById('contact-toggle');
+        let contactHintClosedManually = false;
+
+        // Show contact hint 5 seconds after load
+        setTimeout(() => {
+          if (!contactHintClosedManually) {
+            contactHint.style.display = 'block';
+          }
+        }, 3000);
+
+        // Close contact hint manually
+        closeContactHint.addEventListener('click', () => {
+          contactHint.style.display = 'none';
+          contactHintClosedManually = true;
+        });
+
+        // Smooth scroll on contact button click
+        contactBtn.addEventListener('click', e => {
+          e.preventDefault();
+          contactHint.style.display = 'none';
+          document.querySelector('#contact').scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+          });
+        });
+      });
+    </script>
+
     <!-- Script for Modal Close -->
     <script>
       window.addEventListener('load', () => {
@@ -1798,6 +1976,8 @@
       const chatToggle = document.getElementById('chat-toggle');
       const chatBox = document.getElementById('chat-box');
       const closeChat = document.getElementById('close-chat');
+      // const chatBox = document.getElementById('chat-box');
+      const heightChange = document.getElementById('contact-widget');
       const sendBtn = document.getElementById('send-btn');
       const userInput = document.getElementById('user-input');
       const messages = document.getElementById('messages');
@@ -1819,6 +1999,7 @@
         chatBox.classList.add('d-none');
         chatToggle.classList.remove('d-none');
         messages.innerHTML = '';
+        heightChange.style.setProperty('bottom', '100px', 'important');
       });
 
       // Send on Enter
@@ -1949,26 +2130,26 @@
 
         const answers = {
           'who is prince bhatt': `Prince Bhatt is a Full Stack Web Developer with a B.Tech in IoT from Samrat Ashok Technological Institute, Vidisha.
-He is proficient in JavaScript, Java, Node.js, React, MongoDB, SQL, and TailwindCSS.
-Prince has created projects like UrbanKart (an advanced MERN E-Commerce platform with Razorpay & Google OAuth), Meta Photos (a Google Photos clone), and Pizzeria (a real-time pizza delivery system).
-He has also completed internships with Quasar Digital Solutions and AUXES IT Solutions.`,
+      He is proficient in JavaScript, Java, Node.js, React, MongoDB, SQL, and TailwindCSS.
+      Prince has created projects like UrbanKart (an advanced MERN E-Commerce platform with Razorpay & Google OAuth), Meta Photos (a Google Photos clone), and Pizzeria (a real-time pizza delivery system).
+      He has also completed internships with Quasar Digital Solutions and AUXES IT Solutions.`,
 
           'who is vanshi': `Vanshi is a talented girl with a passion for technology and innovation. She's Prince's best friend. She's too  pretty and smart. Her eyes are so beautiful and attractive. Her smile is so cute and charming and also she is very Chapli.
-She is   skilled in various programming languages and frameworks, making her a valuable asset in any development team.
-Vanshi has worked on several projects, showcasing her ability to create efficient and user-friendly applications.
-Her dedication to continuous learning and improvement sets her apart in the tech industry.`,
+      She is   skilled in various programming languages and frameworks, making her a valuable asset in any development team.
+      Vanshi has worked on several projects, showcasing her ability to create efficient and user-friendly applications.
+      Her dedication to continuous learning and improvement sets her apart in the tech industry.`,
 
           'who are you': `I'm Prince's AI Assistant 🤖, here to help you with queries about  Prince, web development, or tech in  general!`,
 
           'what is urbankart': `UrbanKart is an advanced E-Commerce web app built by Prince Bhatt using the MERN stack.
-It features JWT and Google OAuth, role-based authentication, an admin dashboard, and Razorpay integration.
-It is his most challenging and favorite project.`,
+      It features JWT and Google OAuth, role-based authentication, an admin dashboard, and Razorpay integration.
+      It is his most challenging and favorite project.`,
 
           'what is java': `Java is a high-level, object-oriented programming language used for building secure, robust, and platform-independent applications.
-It’s widely used in backend development, Android apps, and large-scale enterprise systems.`,
+      It’s widely used in backend development, Android apps, and large-scale enterprise systems.`,
 
           'what is mongodb': `MongoDB is a NoSQL database that stores data in flexible, JSON-like documents.
-It’s used in modern web apps, especially with Node.js, to handle large volumes of data efficiently.`,
+      It’s used in modern web apps, especially with Node.js, to handle large volumes of data efficiently.`,
 
           'about prince bhatt': null,
           'tell me about prince bhatt': null,
