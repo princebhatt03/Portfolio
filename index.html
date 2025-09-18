@@ -1902,12 +1902,12 @@
         const contactBtn = document.getElementById('contact-toggle');
         let contactHintClosedManually = false;
 
-        // Show contact hint 5 seconds after load
+        // Show contact hint 4 seconds after load
         setTimeout(() => {
           if (!contactHintClosedManually) {
             contactHint.style.display = 'block';
           }
-        }, 3000);
+        }, 4000);
 
         // Close contact hint manually
         closeContactHint.addEventListener('click', () => {
