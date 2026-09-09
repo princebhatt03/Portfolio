@@ -11,20 +11,6 @@ window.addEventListener('load', function () {
     document.body.style.overflow = 'visible';
   }, 450);
 });
-new Swiper('.portfolio-details-slider', {
-  speed: 400,
-  loop: true,
-  autoplay: {
-    delay: 5000,
-    disableOnInteraction: false,
-  },
-  pagination: {
-    el: '.swiper-pagination',
-    type: 'bullets',
-    clickable: true,
-  },
-});
-
 (function () {
   'use strict';
   const select = (el, all = false) => {
