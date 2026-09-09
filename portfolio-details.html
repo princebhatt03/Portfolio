@@ -5,21 +5,58 @@
     <meta
       content="width=device-width, initial-scale=1.0"
       name="viewport" />
-    <title>Portfolio : Project Details</title>
+    <title>Projects — Prince Bhatt</title>
     <meta
-      content=""
-      name="description" />
+      name="description"
+      content="Case studies from Prince Bhatt's full stack work: e-commerce platforms, real-time order tracking, and media applications built with React, Node.js and MongoDB." />
     <meta
-      content=""
-      name="keywords" />
+      name="author"
+      content="Prince Bhatt" />
+    <meta
+      name="theme-color"
+      content="#149ddd" />
+    <link
+      rel="canonical"
+      href="https://princebhatt03.github.io/Portfolio/portfolio-details.html" />
+
+    <meta
+      property="og:type"
+      content="website" />
+    <meta
+      property="og:site_name"
+      content="Prince Bhatt" />
+    <meta
+      property="og:title"
+      content="Projects — Prince Bhatt" />
+    <meta
+      property="og:description"
+      content="Case studies from Prince Bhatt's full stack work, built with React, Node.js and MongoDB." />
+    <meta
+      property="og:url"
+      content="https://princebhatt03.github.io/Portfolio/portfolio-details.html" />
+    <meta
+      property="og:image"
+      content="https://princebhatt03.github.io/Portfolio/assets/img/og-image.png" />
+    <meta
+      name="twitter:card"
+      content="summary_large_image" />
+
     <link
       href="assets/img/favicon.png"
-      rel="icon" />
+      rel="icon"
+      type="image/png" />
     <link
       href="assets/img/apple-touch-icon.png"
       rel="apple-touch-icon" />
     <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="preconnect"
+      href="https://fonts.googleapis.com" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Poppins:wght@400;500;600&family=Raleway:wght@400;500;600;700&display=swap"
       rel="stylesheet" />
     <link
       href="assets/vendor/aos/aos.css"
@@ -42,46 +79,81 @@
     <link
       href="assets/css/style.css"
       rel="stylesheet" />
+
+    <!-- Applied before first paint so a saved dark preference doesn't flash white. -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          if (t === 'dark' || t === 'light')
+            document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {}
+      })();
+    </script>
+
   </head>
-  <style>
-    html {
-      scroll-behavior: smooth;
-    }
-    .nav-menu {
-      overflow-y: auto;
-      max-height: calc(100vh - 300px);
-      padding-right: 4px;
-    }
-    .nav-menu::-webkit-scrollbar {
-      width: 0;
-      background: transparent;
-    }
-    .nav-menu {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-  </style>
   <body>
-    <div id="preloader-active">
-      <div class="preloader d-flex align-items-center justify-content-center">
-        <div class="preloader-inner position-relative">
-          <div class="preloader-circle"></div>
-          <div class="preloader-img pere-text">
-            <img
-              src="assets/img/Loading-img.png"
-              alt="" />
+    <!-- Skeleton shell: mirrors the real 300px sidebar + main grid so
+         nothing shifts sideways when it swaps out. Removed by
+         assets/js/skeleton.js on load (with timer failsafes). -->
+    <div
+      id="page-skeleton"
+      aria-hidden="true">
+      <div class="ps-sidebar">
+        <div class="skel skel-circle ps-avatar"></div>
+        <div class="skel ps-name"></div>
+        <div class="ps-socials">
+          <span class="skel skel-circle"></span>
+          <span class="skel skel-circle"></span>
+          <span class="skel skel-circle"></span>
+          <span class="skel skel-circle"></span>
+        </div>
+        <div class="ps-nav">
+          <span class="skel"></span>
+          <span class="skel"></span>
+          <span class="skel"></span>
+          <span class="skel"></span>
+          <span class="skel"></span>
+          <span class="skel"></span>
+          <span class="skel"></span>
+          <span class="skel"></span>
+        </div>
+      </div>
+
+      <div class="ps-main">
+        <div class="skel ps-hero"></div>
+        <div class="ps-body">
+          <div>
+            <div class="skel ps-title"></div>
+            <div style="height: 18px"></div>
+            <div class="skel skel-line"></div>
+            <div class="skel skel-line w90"></div>
+            <div class="skel skel-line w70"></div>
+          </div>
+          <div class="ps-cards">
+            <div class="skel ps-card"></div>
+            <div class="skel ps-card"></div>
+            <div class="skel ps-card"></div>
           </div>
         </div>
       </div>
     </div>
-    <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
+    <button
+      type="button"
+      class="mobile-nav-toggle d-xl-none"
+      aria-label="Open navigation menu"
+      aria-expanded="false">
+      <i class="bi bi-list" aria-hidden="true"></i>
+    </button>
     <!-- ======= Navbar ======= -->
     <header id="header">
       <div class="d-flex flex-column">
         <div class="profile">
           <img
-            src="assets/img/profile.jpg"
-            alt=""
+            src="assets/img/profile-sm.webp"
+            alt="Prince Bhatt"
+            width="260"
+            height="260"
             class="img-fluid rounded-circle" />
           <h1 class="text-light"><a href="index.html">Prince Bhatt</a></h1>
           <div class="social-links mt-3 text-center">
@@ -92,25 +164,43 @@
             ></a> -->
             <a
               href="mailto:princebhatt316@gmail.com"
-              class="facebook"
-              ><i class="bx bxl-gmail"></i
+              class="social-gmail"
+              aria-label="Email Prince Bhatt"
+              ><i class="bx bxl-gmail" aria-hidden="true"></i
             ></a>
             <a
               href="https://www.instagram.com/prince16.03?igsh=MXM2ZjEzbm0wbHkwbw=="
-              class="instagram"
-              ><i class="bx bxl-instagram"></i
+              class="social-instagram"
+              aria-label="Prince Bhatt on Instagram"
+              ><i class="bx bxl-instagram" aria-hidden="true"></i
             ></a>
             <a
               href="https://github.com/princebhatt03"
-              class="google-plus"
-              ><i class="bx bxl-github"></i
+              class="social-github"
+              aria-label="Prince Bhatt on GitHub"
+              ><i class="bx bxl-github" aria-hidden="true"></i
             ></a>
             <a
               href="https://www.linkedin.com/in/prince-bhatt-0958a725a/"
-              class="linkedin"
-              ><i class="bx bxl-linkedin"></i
+              class="social-linkedin"
+              aria-label="Prince Bhatt on LinkedIn"
+              ><i class="bx bxl-linkedin" aria-hidden="true"></i
             ></a>
           </div>
+
+          <button
+            type="button"
+            id="theme-toggle"
+            class="theme-toggle"
+            aria-label="Switch colour theme">
+            <i
+              class="bx bx-moon icon-light"
+              aria-hidden="true"></i>
+            <i
+              class="bx bx-sun icon-dark"
+              aria-hidden="true"></i>
+            <span id="theme-toggle-label">Dark mode</span>
+          </button>
         </div>
 
         <nav
@@ -121,63 +211,63 @@
               <a
                 href="index.html#hero"
                 class="nav-link scrollto active">
-                <i class="bx bx-home"></i> <span>Home</span>
+                <i class="bx bx-home" aria-hidden="true"></i> <span>Home</span>
               </a>
             </li>
             <li>
               <a
                 href="index.html#about"
                 class="nav-link scrollto">
-                <i class="bx bx-user"></i> <span>About</span>
+                <i class="bx bx-user" aria-hidden="true"></i> <span>About</span>
               </a>
             </li>
             <li>
               <a
                 href="index.html#facts"
                 class="nav-link scrollto">
-                <i class="bx bx-info-circle"></i> <span>Fact</span>
+                <i class="bx bx-info-circle" aria-hidden="true"></i> <span>Fact</span>
               </a>
             </li>
             <li>
               <a
                 href="index.html#blogs-notes"
                 class="nav-link scrollto">
-                <i class="bx bx-server"></i> <span>Blogs</span>
+                <i class="bx bx-server" aria-hidden="true"></i> <span>Blogs</span>
               </a>
             </li>
             <li>
               <a
                 href="index.html#skills"
                 class="nav-link scrollto">
-                <i class="bx bx-bulb"></i> <span>Skills</span>
+                <i class="bx bx-bulb" aria-hidden="true"></i> <span>Skills</span>
               </a>
             </li>
             <li>
               <a
                 href="index.html#resume"
                 class="nav-link scrollto">
-                <i class="bx bx-file-blank"></i> <span>Resume</span>
+                <i class="bx bx-file-blank" aria-hidden="true"></i> <span>Resume</span>
               </a>
             </li>
             <li>
               <a
                 href="index.html#portfolio"
                 class="nav-link scrollto">
-                <i class="bx bx-book-content"></i> <span>Projects</span>
+                <i class="bx bx-book-content" aria-hidden="true"></i> <span>Projects</span>
               </a>
             </li>
             <li>
               <a
                 href="index.html#testimonials"
                 class="nav-link scrollto">
-                <i class="bx bx-user-voice"></i> <span>Testimonials</span>
+                <i class="bx bx-user-voice" aria-hidden="true"></i> <span>Testimonials</span>
               </a>
             </li>
             <li>
               <a
                 href="index.html#contact"
                 class="nav-link scrollto">
-                <i class="bx bx-envelope"></i> <span>Contact</span>
+                <i class="bx bx-envelope" aria-hidden="true"></i> <span>Contact</span>
               </a>
             </li>
           </ul>
@@ -188,80 +278,29 @@
     <!-- End Navbar -->
 
     <main id="main">
-      <!-- Portfolio Projects & Blogs Section -->
       <section
         id="portfolio-details"
         class="portfolio-details">
         <div class="container">
-          <div class="row gy-4">
-            <div class="col-lg-8">
-              <div class="portfolio-details-slider swiper">
-                <div class="swiper-wrapper align-items-center">
-                  <!-- Project Screenshots -->
-                  <div class="swiper-slide">
-                    <img
-                      src="assets/img/portfolio/princeOfDealsBack.png"
-                      alt="UrbanKart E-Commerce" />
-                  </div>
-                  <div class="swiper-slide">
-                    <img
-                      src="assets/img/portfolio/meta.png"
-                      alt="Meta Photos Clone" />
-                  </div>
-                  <div class="swiper-slide">
-                    <img
-                      src="assets/img/portfolio/react2.png"
-                      alt="Real-Time Pizza Delivery" />
-                  </div>
-                  <div class="swiper-slide">
-                    <img
-                      src="assets/img/portfolio/princeOfDeals.png"
-                      alt="QuickPick E-Commerce" />
-                  </div>
-                  <div class="swiper-slide">
-                    <img
-                      src="assets/img/portfolio/maps.png"
-                      alt="IoT Maps Integration" />
-                  </div>
-                  <!-- Add more project images if needed -->
-                </div>
-                <div class="swiper-pagination"></div>
-              </div>
-            </div>
+          <div class="section-title">
+            <h2>Case studies</h2>
+            <p>
+              What each project was actually trying to solve, the decisions
+              behind it, and what I took away. Every one is live — the links go
+              to running deployments, not screenshots.
+            </p>
+          </div>
 
-            <div class="col-lg-4">
-              <div class="portfolio-info">
-                <h3>Project Information</h3>
-                <ul>
-                  <li><strong>Category</strong>: Full Stack Development</li>
-                  <li>
-                    <strong>GitHub</strong>:
-                    <a href="https://github.com/princebhatt03"
-                      >GitHub Profile</a
-                    >
-                  </li>
-                </ul>
-              </div>
-              <div class="portfolio-description">
-                <h2>Featured Projects</h2>
-                <p>
-                  I've built multiple Full Stack Projects including E-Commerce
-                  platforms, real-time delivery systems, and media upload
-                  applications using technologies. All my projects are available
-                  on my GitHub:
-                  <a
-                    href="https://github.com/princebhatt03"
-                    target="_blank"
-                    >GitHub</a
-                  >
-                </p>
-              </div>
-            </div>
+          <!-- Rendered from assets/data/projects.json by assets/js/projects.js -->
+          <div id="case-studies">
+            <p
+              id="case-studies-status"
+              class="cs-status">
+              Loading case studies…
+            </p>
           </div>
         </div>
       </section>
-
-      <!-- Blog & Notes Section -->
     </main>
     <!-- End #main -->
 
@@ -279,9 +318,12 @@
     <!-- End  Footer -->
 
     <a
-      href="#"
+      href="#header"
       class="back-to-top d-flex align-items-center justify-content-center"
-      ><i class="bi bi-arrow-up-short"></i
+      aria-label="Back to top"
+      ><i
+        class="bi bi-arrow-up-short"
+        aria-hidden="true"></i
     ></a>
 
     <!-- Vendor JS Files -->
@@ -293,9 +335,10 @@
     <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
     <script src="assets/vendor/typed.js/typed.umd.js"></script>
     <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
 
     <!-- Template Main JS File -->
-    <script src="assets/js/main2.js"></script>
+    <script src="assets/js/skeleton.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/projects.js"></script>
   </body>
 </html>
