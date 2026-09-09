@@ -1,3 +1,90 @@
+/*--------------------------------------------------------------
+# Design tokens
+#
+# Light is the default. Dark is applied in two places so all three
+# viewer states work: the OS preference (when no explicit choice has
+# been made) and the [data-theme] attribute the toggle writes.
+--------------------------------------------------------------*/
+:root {
+  --surface: #ffffff;
+  --surface-alt: #f5f8fd;
+  --surface-raised: #ffffff;
+  --surface-sunken: #e4edf9;
+  --sidebar: #040b14;
+  --sidebar-deep: #050d18;
+
+  --text: #272829;
+  --text-strong: #050d18;
+  --text-muted: #6c757d;
+  --text-inverse: #ffffff;
+
+  --accent: #149ddd;
+  --accent-hover: #37b3ed;
+  --accent-soft: #dff3fc;
+  --accent-deep: #173b6c;
+
+  --border: #e4edf9;
+  --border-strong: #cfd9e8;
+  --shadow: rgba(0, 0, 0, 0.12);
+
+  --preloader-bg: #f7f7f7;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --surface: #0d1522;
+    --surface-alt: #111c2d;
+    --surface-raised: #16233a;
+    --surface-sunken: #1d2c44;
+    --sidebar: #060d17;
+    --sidebar-deep: #04080f;
+
+    --text: #c9d3e0;
+    --text-strong: #eaf1f8;
+    --text-muted: #8a97a8;
+    --text-inverse: #ffffff;
+
+    --accent: #3bb4ef;
+    --accent-hover: #6cc9f5;
+    --accent-soft: #12324a;
+    --accent-deep: #2b7fc4;
+
+    --border: #24344d;
+    --border-strong: #33465f;
+    --shadow: rgba(0, 0, 0, 0.55);
+
+    --preloader-bg: #0d1522;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  --surface: #0d1522;
+  --surface-alt: #111c2d;
+  --surface-raised: #16233a;
+  --surface-sunken: #1d2c44;
+  --sidebar: #060d17;
+  --sidebar-deep: #04080f;
+
+  --text: #c9d3e0;
+  --text-strong: #eaf1f8;
+  --text-muted: #8a97a8;
+  --text-inverse: #ffffff;
+
+  --accent: #3bb4ef;
+  --accent-hover: #6cc9f5;
+  --accent-soft: #12324a;
+  --accent-deep: #2b7fc4;
+
+  --border: #24344d;
+  --border-strong: #33465f;
+  --shadow: rgba(0, 0, 0, 0.55);
+
+  --preloader-bg: #0d1522;
+  color-scheme: dark;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -7,7 +94,9 @@
 body {
   font-family: 'Open Sans', sans-serif;
   color: #272829;
-  text-align: justify;
+  /* Left-aligned rather than justified: without hyphenation, justified text
+     opens rivers of white space on narrow screens and is harder to read. */
+  text-align: left;
   width: 100%;
   height: 100%;
 }
@@ -30,7 +119,7 @@ h6 {
   font-family: 'Raleway', sans-serif;
 }
 .preloader {
-  background-color: #f7f7f7;
+  background-color: var(--preloader-bg);
   width: 100%;
   height: 100%;
   position: fixed;
@@ -209,7 +298,7 @@ h6 {
   z-index: 9997;
   transition: all 0.5s;
   padding: 0 15px;
-  background: #040b14;
+  background: var(--sidebar);
   overflow-y: auto;
 }
 
@@ -371,15 +460,36 @@ h6 {
 #hero {
   width: 100%;
   height: 100vh;
-  background-image: url('../img/backMob.png');
+  /* The source is a portrait phone photo. On a landscape viewport,
+     background-size:cover was showing only the middle 35% of it — the sunset
+     sky and the subject's head both cropped away. Portrait screens get the
+     portrait file; landscape screens get a purpose-cut 16:9 frame. */
+  background-image: url('../img/hero-bg-sm.webp');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
 }
 
+@media (min-width: 768px) {
+  #hero {
+    background-image: url('../img/hero-wide.webp');
+    background-position: center 40%;
+  }
+}
+
 #hero:before {
   content: '';
-  background: rgba(5, 13, 24, 0.3);
+  background: linear-gradient(
+      180deg,
+      rgba(4, 11, 20, 0.34) 0%,
+      rgba(4, 11, 20, 0.18) 38%,
+      rgba(4, 11, 20, 0.62) 100%
+    ),
+    radial-gradient(
+      ellipse at 50% 55%,
+      rgba(4, 11, 20, 0.45) 0%,
+      rgba(4, 11, 20, 0) 62%
+    );
   position: absolute;
   bottom: 0;
   top: 0;
@@ -389,7 +499,7 @@ h6 {
 }
 .paraa {
   border: none;
-  background-color: #e4edf9;
+  background-color: var(--surface-sunken);
   color: black;
   font-weight: 600;
   padding: 10px;
@@ -455,7 +565,7 @@ section {
 }
 
 .section-bg {
-  background: #f5f8fd;
+  background: var(--surface-alt);
 }
 
 .section-title {
@@ -598,7 +708,7 @@ section {
 }
 
 .skills .progress-bar-wrap {
-  background: #dce8f8;
+  background: var(--surface-sunken);
   height: 10px;
 }
 
@@ -639,7 +749,7 @@ section {
 
 .resume .resume-item h5 {
   font-size: 16px;
-  background: #e4edf9;
+  background: var(--surface-sunken);
   padding: 5px 15px;
   display: inline-block;
   font-weight: 600;
@@ -1009,7 +1119,7 @@ section {
   float: left;
   width: 44px;
   height: 44px;
-  background: #dff3fc;
+  background: var(--accent-soft);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1178,7 +1288,7 @@ section {
 --------------------------------------------------------------*/
 .breadcrumbs {
   padding: 20px 0;
-  background: #f9f9f9;
+  background: var(--surface-alt);
 }
 
 .breadcrumbs h2 {
@@ -1211,16 +1321,25 @@ section {
   align-items: center;
 }
 .btn11 {
+  display: inline-block;
   text-align: center;
   border: none;
-  padding: 10px;
-  background-color: #1072a1;
-  color: white;
-  border-radius: 4px;
+  padding: 11px 24px;
+  background-color: var(--accent);
+  color: #fff;
+  border-radius: 50px;
+  font-size: 15px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+.btn11:hover,
+.btn11 a:hover {
+  background-color: var(--accent-hover);
+  color: #fff;
 }
 .btn11 a {
   text-decoration: none;
-  color: white;
+  color: #fff;
 }
 @media (max-width: 768px) {
   .breadcrumbs .d-flex {
@@ -1248,7 +1367,7 @@ section {
   bottom: 0;
   width: 300px;
   z-index: 9999;
-  background: #040b14;
+  background: var(--sidebar);
 }
 
 #footer .copyright {
@@ -1268,4 +1387,2113 @@ section {
     width: auto;
     padding-right: 20px 15px;
   }
+}
+
+/*--------------------------------------------------------------
+# Contact form honeypot
+# Positioned off-screen rather than display:none — some bots skip
+# hidden fields but still fill ones they can find in the DOM.
+--------------------------------------------------------------*/
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/*--------------------------------------------------------------
+# Chat bubbles
+# Moved out of inline styles so chat.js can build nodes with
+# textContent instead of assembling styled HTML strings.
+--------------------------------------------------------------*/
+.chat-bubble {
+  display: inline-block;
+  max-width: 260px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: left;
+  color: #fff;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+.chat-bubble.bg-light {
+  color: #212529;
+}
+
+/*--------------------------------------------------------------
+# Visible keyboard focus
+# The template relied on the browser default, which several rules
+# suppressed with outline: none.
+--------------------------------------------------------------*/
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible,
+#portfolio-flters li:focus-visible {
+  outline: 3px solid #149ddd;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.mobile-nav-toggle:focus-visible {
+  outline: 3px solid #fff !important;
+  outline-offset: 2px;
+}
+
+#portfolio-flters li {
+  cursor: pointer;
+}
+
+/*--------------------------------------------------------------
+# Reduced motion
+# AOS is disabled from JS; this covers CSS transitions, the
+# preloader spinner and anything else that moves.
+--------------------------------------------------------------*/
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  .preloader .preloader-circle {
+    animation: none !important;
+    border-top-color: #149ddd;
+  }
+
+  [data-aos] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/*--------------------------------------------------------------
+# Dark theme
+#
+# The template hardcodes #fff on most raised surfaces. Rather than
+# rewrite 1,400 lines, these rules re-point those surfaces at the
+# tokens. Both selectors are needed: the media query covers viewers
+# on the OS default, the attribute covers an explicit toggle choice.
+--------------------------------------------------------------*/
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) body {
+    background: var(--surface);
+    color: var(--text);
+  }
+}
+:root[data-theme='dark'] body {
+  background: var(--surface);
+  color: var(--text);
+}
+
+body {
+  background: var(--surface);
+  color: var(--text);
+}
+
+/* Surfaces that the template paints white */
+.blog-item,
+.testimonial-card,
+.testimonials .testimonial-item p,
+.contact .info,
+.contact .php-email-form,
+.contact .php-email-form .loading,
+.portfolio #portfolio-flters,
+.count-box,
+.skill-group {
+  background: var(--surface-raised);
+  color: var(--text);
+}
+
+.blog-item,
+.testimonial-card,
+.contact .info,
+.contact .php-email-form,
+.skill-group {
+  border: 1px solid var(--border);
+  box-shadow: 0 0 24px 0 var(--shadow);
+}
+
+/* Headings and body copy */
+.section-title h2,
+.resume .resume-item h4,
+.blog-item h4,
+.testimonial-card h5 {
+  color: var(--text-strong);
+}
+
+.section-title p,
+.resume .resume-item p,
+.resume .resume-item li,
+.about .content p,
+.about .content li,
+.testimonial-text {
+  color: var(--text);
+}
+
+.text-muted {
+  color: var(--text-muted) !important;
+}
+
+/* Form controls */
+.contact .php-email-form input,
+.contact .php-email-form textarea,
+.contact .php-email-form .form-control {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+}
+
+.contact .php-email-form input::placeholder,
+.contact .php-email-form textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.contact .php-email-form input:focus,
+.contact .php-email-form textarea:focus {
+  border-color: var(--accent);
+}
+
+/* Chat panel */
+#chat-box {
+  background: var(--surface-raised);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+#messages {
+  background: var(--surface-alt) !important;
+}
+
+#user-input {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+}
+
+.chat-bubble.bg-secondary {
+  background: var(--surface-sunken) !important;
+  color: var(--text-strong);
+}
+
+/*--------------------------------------------------------------
+# Theme toggle
+--------------------------------------------------------------*/
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 14px auto 0;
+  padding: 7px 14px;
+  border: 1px solid #2c2f3f;
+  border-radius: 50px;
+  background: #212431;
+  color: #a8a9b4;
+  font-size: 13px;
+  font-family: 'Open Sans', sans-serif;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.theme-toggle:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.theme-toggle i {
+  font-size: 15px;
+  line-height: 1;
+}
+
+/* Only one icon shows at a time */
+.theme-toggle .icon-dark {
+  display: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .theme-toggle .icon-dark {
+    display: inline-block;
+  }
+  :root:not([data-theme='light']) .theme-toggle .icon-light {
+    display: none;
+  }
+}
+:root[data-theme='dark'] .theme-toggle .icon-dark {
+  display: inline-block;
+}
+:root[data-theme='dark'] .theme-toggle .icon-light {
+  display: none;
+}
+:root[data-theme='light'] .theme-toggle .icon-dark {
+  display: none;
+}
+:root[data-theme='light'] .theme-toggle .icon-light {
+  display: inline-block;
+}
+
+/*--------------------------------------------------------------
+# Chat widget and misc
+# Moved out of the inline <style> blocks in index.html and
+# portfolio-details.html so the dark theme above can override them
+# (an inline block after the stylesheet link always wins otherwise).
+--------------------------------------------------------------*/
+html {
+  scroll-behavior: smooth;
+}
+
+#chat-widget {
+  position: fixed;
+  z-index: 1000;
+  bottom: 20px;
+  right: 20px;
+}
+
+#chat-toggle {
+  background-color: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+#chat-box {
+  width: 400px;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 10px;
+  overflow-y: auto;
+}
+
+#messages {
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-size: 14px;
+  margin-bottom: 10px;
+  padding: 10px;
+  background: var(--surface-alt) !important;
+}
+
+#user-input {
+  width: 70%;
+  padding: 5px;
+}
+
+#send-btn {
+  width: 25%;
+  padding: 5px;
+}
+
+.testimonials .testimonial-item {
+  transition: transform 0.3s ease;
+}
+
+.testimonials .testimonial-item:hover {
+  transform: translateY(-6px);
+}
+
+.testimonials .testimonial-img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border: 3px solid #ff7b00;
+}
+
+.testimonials .quote-icon-left,
+.testimonials .quote-icon-right {
+  color: #e0a800;
+  font-size: 20px;
+  line-height: 0;
+}
+
+/* Only the Projects counter gets a "+" — hours and followers read as
+   invented when an exact figure carries one. */
+.project-counter::after {
+  content: '+';
+  margin-left: 2px;
+}
+
+.nav-menu {
+  overflow-y: auto;
+  max-height: calc(100vh - 340px);
+  padding-right: 4px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.nav-menu::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+/*--------------------------------------------------------------
+# Skills
+# Grouped chips instead of percentage bars: "HTML 100%" is a claim
+# nobody can make, and "Java 60%" volunteers a weakness. Grouping by
+# depth of use says more and invites no argument.
+--------------------------------------------------------------*/
+.skill-group {
+  height: 100%;
+  padding: 24px;
+  border-radius: 8px;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  box-shadow: 0 0 24px 0 var(--shadow);
+}
+
+.skill-group-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0 0 16px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+.skill-group-note {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.skill-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.skill-chips li {
+  padding: 5px 12px;
+  border-radius: 50px;
+  font-size: 13px;
+  line-height: 1.5;
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+  border: 1px solid transparent;
+}
+
+:root[data-theme='dark'] .skill-chips li {
+  color: var(--text-strong);
+  border-color: var(--border-strong);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .skill-chips li {
+    color: var(--text-strong);
+    border-color: var(--border-strong);
+  }
+}
+
+/*--------------------------------------------------------------
+# Case studies (portfolio-details.html)
+--------------------------------------------------------------*/
+.cs-status {
+  padding: 40px 0;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.cs-status-error {
+  color: var(--text);
+}
+
+.cs-card {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 0;
+  margin-bottom: 40px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--surface-raised);
+  box-shadow: 0 0 24px 0 var(--shadow);
+}
+
+@media (max-width: 991px) {
+  .cs-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.cs-media {
+  margin: 0;
+  background: var(--surface-sunken);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.cs-media img {
+  width: 100%;
+  height: 100%;
+  max-height: 460px;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+
+.cs-body {
+  padding: 28px 30px 30px;
+  min-width: 0;
+}
+
+.cs-head {
+  margin-bottom: 16px;
+}
+
+.cs-name {
+  font-family: 'Raleway', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-strong);
+  margin: 0 0 4px;
+}
+
+.cs-meta {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 8px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.cs-category {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.cs-tagline {
+  margin: 0;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.cs-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+}
+
+.cs-stack li {
+  padding: 3px 10px;
+  border-radius: 50px;
+  font-size: 12px;
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+  border: 1px solid transparent;
+}
+
+:root[data-theme='dark'] .cs-stack li {
+  color: var(--text-strong);
+  border-color: var(--border-strong);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .cs-stack li {
+    color: var(--text-strong);
+    border-color: var(--border-strong);
+  }
+}
+
+.cs-section {
+  margin-bottom: 18px;
+}
+
+.cs-label {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 6px;
+}
+
+.cs-section p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.75;
+  color: var(--text);
+}
+
+.cs-list {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.cs-list li {
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.cs-outcome {
+  padding: 10px 14px;
+  border-left: 3px solid var(--accent);
+  background: var(--surface-alt);
+}
+
+.cs-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.cs-link {
+  display: inline-block;
+  padding: 9px 20px;
+  border-radius: 50px;
+  font-size: 14px;
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.cs-link:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.cs-link-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.cs-link-primary:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: #fff;
+}
+
+/*--------------------------------------------------------------
+# GitHub section
+--------------------------------------------------------------*/
+.github-section {
+  padding: 60px 10px;
+}
+
+.gh-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.gh-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-raised);
+  color: var(--text);
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.gh-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  color: var(--text);
+}
+
+.gh-card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.gh-card-head i {
+  font-size: 19px;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.gh-name {
+  margin: 0;
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-strong);
+  word-break: break-word;
+}
+
+.gh-desc {
+  margin: 0;
+  flex: 1;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+
+.gh-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.gh-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gh-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/*--------------------------------------------------------------
+# Resume actions and inline viewer
+--------------------------------------------------------------*/
+.resume-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 26px;
+}
+
+.btn11-ghost {
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+}
+
+.btn11-ghost:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.resume-viewer {
+  margin-top: 22px;
+}
+
+.resume-viewer object {
+  width: 100%;
+  height: 78vh;
+  min-height: 460px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-alt);
+}
+
+.resume-fallback {
+  padding: 30px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+@media (max-width: 768px) {
+  .resume-viewer object {
+    height: 60vh;
+  }
+}
+
+/*==============================================================
+# SKELETON LOADING
+#
+# Replaces the spinner overlay. A spinner says "wait"; a skeleton
+# says "here is the shape of what's coming", so the layout never
+# jumps and the wait feels shorter.
+#
+# Three levels:
+#   1. #page-skeleton  — full-page shell shown until window.load
+#   2. .skel-card      — async content (case studies, GitHub repos)
+#   3. .skel-img       — per-image, cleared when each image decodes
+==============================================================*/
+
+:root {
+  --skel-base: #e6ebf2;
+  --skel-sheen: #f3f6fa;
+  --skel-dark-base: #1a2333;
+  --skel-dark-sheen: #243044;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --skel-base: var(--skel-dark-base);
+    --skel-sheen: var(--skel-dark-sheen);
+  }
+}
+:root[data-theme='dark'] {
+  --skel-base: var(--skel-dark-base);
+  --skel-sheen: var(--skel-dark-sheen);
+}
+
+/* The shimmer itself ------------------------------------------------ */
+.skel {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--skel-base);
+  border-radius: 6px;
+}
+
+.skel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    transparent 0,
+    var(--skel-sheen) 50%,
+    transparent 100%
+  );
+  animation: skel-sweep 1.4s ease-in-out infinite;
+}
+
+@keyframes skel-sweep {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* A moving sheen is exactly what reduced-motion users asked not to
+   see, so they get a calm pulse-free tint instead. */
+@media (prefers-reduced-motion: reduce) {
+  .skel::after {
+    animation: none;
+    background-image: none;
+  }
+}
+
+/* Primitives -------------------------------------------------------- */
+.skel-line {
+  height: 12px;
+  margin-bottom: 9px;
+  border-radius: 4px;
+}
+.skel-line:last-child {
+  margin-bottom: 0;
+}
+.skel-line.sm {
+  height: 10px;
+}
+.skel-line.lg {
+  height: 18px;
+}
+.skel-line.w90 { width: 90%; }
+.skel-line.w80 { width: 80%; }
+.skel-line.w70 { width: 70%; }
+.skel-line.w60 { width: 60%; }
+.skel-line.w45 { width: 45%; }
+.skel-line.w30 { width: 30%; }
+
+.skel-circle {
+  border-radius: 50%;
+  flex: none;
+}
+
+.skel-pill {
+  height: 26px;
+  border-radius: 50px;
+}
+
+/*--------------------------------------------------------------
+# 1. Full-page shell
+#
+# Mirrors the real grid — 300px sidebar, then main — so when it
+# swaps out nothing shifts sideways.
+--------------------------------------------------------------*/
+#page-skeleton {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  background: var(--surface);
+  opacity: 1;
+  transition: opacity 0.45s ease;
+}
+
+#page-skeleton.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ps-sidebar {
+  width: 300px;
+  flex: none;
+  background: var(--sidebar);
+  padding: 30px 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+/* On the sidebar's dark ground the light skeleton tint would glare */
+.ps-sidebar .skel {
+  background-color: #1a1f2e;
+}
+.ps-sidebar .skel::after {
+  background-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #262d40 50%,
+    transparent 100%
+  );
+}
+
+.ps-avatar {
+  width: 120px;
+  height: 120px;
+  margin: 15px 0;
+}
+
+.ps-name {
+  width: 150px;
+  height: 20px;
+  margin-bottom: 16px;
+}
+
+.ps-socials {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 26px;
+}
+
+.ps-socials span {
+  width: 36px;
+  height: 36px;
+}
+
+.ps-nav {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ps-nav span {
+  height: 16px;
+  width: 100%;
+}
+.ps-nav span:nth-child(2n) { width: 78%; }
+.ps-nav span:nth-child(3n) { width: 88%; }
+
+.ps-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ps-hero {
+  height: 56vh;
+  min-height: 280px;
+  border-radius: 0;
+  flex: none;
+}
+
+.ps-body {
+  flex: 1;
+  padding: 40px 40px 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  overflow: hidden;
+}
+
+.ps-title {
+  width: 180px;
+  height: 26px;
+}
+
+.ps-cards {
+  flex: 1;
+  min-height: 130px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.ps-card {
+  height: 100%;
+  min-height: 130px;
+}
+
+@media (max-width: 1199px) {
+  .ps-sidebar {
+    display: none;
+  }
+  .ps-body {
+    padding: 28px 18px 32px;
+    gap: 22px;
+  }
+  .ps-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ps-hero {
+    height: 46vh;
+    min-height: 240px;
+  }
+}
+
+@media (max-width: 575px) {
+  .ps-cards {
+    grid-template-columns: 1fr;
+  }
+  .ps-card:nth-child(n + 3) {
+    display: none;
+  }
+}
+
+/* Nothing scrolls behind the shell while it's up */
+body.is-loading {
+  overflow: hidden;
+}
+
+/*--------------------------------------------------------------
+# 2. Async content skeletons
+--------------------------------------------------------------*/
+.skel-cs {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  margin-bottom: 40px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--surface-raised);
+}
+
+@media (max-width: 991px) {
+  .skel-cs {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.skel-cs-media {
+  min-height: 300px;
+  border-radius: 0;
+}
+
+@media (max-width: 991px) {
+  .skel-cs-media {
+    min-height: 200px;
+  }
+}
+
+.skel-cs-body {
+  padding: 28px 30px 30px;
+}
+
+.skel-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 16px 0 22px;
+}
+
+.skel-chips span {
+  height: 24px;
+  border-radius: 50px;
+}
+
+.skel-gh {
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-raised);
+}
+
+/*--------------------------------------------------------------
+# 3. Per-image skeletons
+#
+# Applied to the image's own box so it holds the reserved space
+# (width/height attributes already prevent the reflow) and clears
+# on decode. Lazy images below the fold shimmer as you reach them.
+--------------------------------------------------------------*/
+img.skel-img {
+  background-color: var(--skel-base);
+  background-image: linear-gradient(
+    90deg,
+    transparent 0,
+    var(--skel-sheen) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  animation: skel-img-sweep 1.4s ease-in-out infinite;
+  color: transparent;
+}
+
+@keyframes skel-img-sweep {
+  0% { background-position: -100% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  img.skel-img {
+    animation: none;
+    background-image: none;
+  }
+}
+
+img.skel-done {
+  background-image: none;
+  animation: none;
+  background-color: transparent;
+}
+
+/*==============================================================
+# UI / UX AND RESPONSIVE FIXES
+==============================================================*/
+
+/*--------------------------------------------------------------
+# Footer
+#
+# The template pins this as a credit bar at the bottom of the dark
+# sidebar, which is right at desktop widths. Below 1200px the
+# sidebar slides off-screen but the footer stayed pinned — leaving
+# a 300px dark slab floating over the content, bottom-left, on
+# every phone. It becomes a normal full-width footer there.
+--------------------------------------------------------------*/
+@media (max-width: 1199px) {
+  #footer {
+    position: static;
+    width: 100%;
+    padding: 22px 15px;
+    text-align: center;
+  }
+}
+
+/*--------------------------------------------------------------
+# AOS failsafe
+#
+# Every animated block starts at opacity 0 and only becomes
+# visible when AOS runs. If the library fails to load, or the
+# script errors before AOS.init, whole sections stay invisible.
+# This makes visible the default and lets AOS opt back in.
+--------------------------------------------------------------*/
+/* AOS ships its rules with doubled attribute selectors
+   ([data-aos^="fade"][data-aos^="fade"]) specifically so they are hard to
+   override, so the failsafe has to out-specify that or it does nothing. */
+html:not(.aos-ready) [data-aos][data-aos] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/*--------------------------------------------------------------
+# Blog cards
+#
+# Were ragged: six cards at six different heights, images at
+# whatever aspect ratio they happened to be, and the link sitting
+# wherever the text left it. Now one fixed image ratio, equal
+# heights per row, and the link pinned to the bottom edge.
+--------------------------------------------------------------*/
+.blogs-notes .row {
+  align-items: stretch;
+}
+
+.blogs-notes .col-lg-4,
+.blogs-notes .col-md-6 {
+  display: flex;
+  margin-bottom: 26px;
+}
+
+.blog-item {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.blog-item:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+}
+
+/* The covers are purpose-made 16:9 artwork now, not assorted logos, so they
+   fill the card edge to edge instead of being letterboxed with padding. */
+.blog-item img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center;
+  background: var(--sidebar);
+  padding: 0;
+  border-bottom: 1px solid var(--border);
+  transition: transform 0.45s ease;
+}
+
+.blog-item {
+  overflow: hidden;
+}
+
+.blog-item:hover img {
+  transform: scale(1.03);
+}
+
+.blog-item h4 {
+  margin: 18px 20px 8px;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.35;
+  /* Two lines maximum, so a long title can't push the card taller
+     than its neighbours. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.blog-item p {
+  margin: 0 20px 16px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text-muted);
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.blog-item a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0 20px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  align-self: flex-start;
+}
+
+.blog-item a::after {
+  content: '→';
+  transition: transform 0.2s ease;
+}
+
+.blog-item a:hover::after {
+  transform: translateX(3px);
+}
+
+/*--------------------------------------------------------------
+# Project cards
+#
+# The grid was nine unlabelled screenshots — you had to hover to
+# learn what any of them were. Each card now carries its name and
+# category, and every thumbnail shares one aspect ratio so the
+# rows line up.
+--------------------------------------------------------------*/
+.portfolio .portfolio-item {
+  margin-bottom: 26px;
+  display: flex;
+}
+
+.portfolio .portfolio-wrap {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface-raised);
+  transition: transform 0.3s ease, border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.portfolio .portfolio-wrap:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 8px 28px -18px var(--shadow);
+}
+
+.portfolio .portfolio-wrap .portfolio-thumb {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: var(--surface-alt);
+}
+
+.portfolio .portfolio-wrap .portfolio-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.5s ease;
+}
+
+.portfolio .portfolio-wrap:hover .portfolio-thumb img {
+  transform: scale(1.04);
+}
+
+.portfolio .portfolio-wrap .portfolio-caption {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+}
+
+.portfolio-caption .pc-name {
+  margin: 0;
+  font-family: 'Raleway', sans-serif;
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--text-strong);
+  line-height: 1.3;
+}
+
+.portfolio-caption .pc-cat {
+  font-size: 11.5px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Overlay actions sit on the thumbnail, not the whole card */
+.portfolio .portfolio-wrap::before {
+  bottom: auto;
+  height: 0;
+  padding-bottom: 56.25%;
+}
+
+.portfolio .portfolio-wrap .portfolio-links {
+  bottom: auto;
+  top: 50%;
+  transform: translateY(-50%) translateY(14px);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.portfolio .portfolio-wrap:hover .portfolio-links {
+  opacity: 1;
+  transform: translateY(-50%);
+  bottom: auto;
+}
+
+.portfolio .portfolio-wrap:hover::before {
+  opacity: 1;
+}
+
+/* Touch devices have no hover, so the actions stay visible there */
+@media (hover: none) {
+  .portfolio .portfolio-wrap .portfolio-links {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+  .portfolio .portfolio-wrap::before {
+    opacity: 0.35;
+  }
+}
+
+/*--------------------------------------------------------------
+# Project filters
+#
+# The rounded white pill broke badly once the labels wrapped —
+# "Client work" dropped onto its own line inside the pill. Now the
+# buttons wrap as individual pills and scroll horizontally when
+# there isn't room.
+--------------------------------------------------------------*/
+.portfolio #portfolio-flters {
+  background: transparent;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 auto 32px;
+}
+
+.portfolio #portfolio-flters li {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 8px 18px;
+  border-radius: 50px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-raised);
+  color: var(--text);
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.portfolio #portfolio-flters li:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.portfolio #portfolio-flters li.filter-active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+@media (max-width: 480px) {
+  .portfolio #portfolio-flters {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scrollbar-width: none;
+  }
+  .portfolio #portfolio-flters::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/*--------------------------------------------------------------
+# Testimonials — equal heights, aligned headers
+--------------------------------------------------------------*/
+.testimonials .col-lg-4,
+.testimonials .col-md-6 {
+  display: flex;
+}
+
+.testimonial-card {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.testimonial-card .d-flex {
+  min-height: 62px;
+  align-items: center;
+}
+
+.testimonial-card h5 {
+  font-size: 15.5px;
+  line-height: 1.3;
+  text-align: left;
+}
+
+.testimonial-card .testimonial-text {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+/*--------------------------------------------------------------
+# Skill groups — equal heights across the row
+--------------------------------------------------------------*/
+.skills-content > [class*='col-'] {
+  display: flex;
+  margin-bottom: 22px;
+}
+
+/*--------------------------------------------------------------
+# Hero
+#
+# 100vh is wrong on mobile browsers: the toolbar is counted, so
+# the section is taller than the visible area and the content
+# under it is pushed off screen. svh measures the actual space.
+--------------------------------------------------------------*/
+#hero {
+  height: 100svh;
+  min-height: 480px;
+  max-height: 900px;
+  position: relative;
+}
+
+@supports not (height: 100svh) {
+  #hero {
+    height: 100vh;
+  }
+}
+
+@media (max-width: 767px) {
+  #hero {
+    min-height: 420px;
+  }
+  #hero h1 {
+    font-size: 34px;
+    line-height: 42px;
+  }
+  #hero p {
+    font-size: 19px;
+  }
+}
+
+/*--------------------------------------------------------------
+# Floating widgets
+#
+# Both hint bubbles used to appear at the same moment, stacked on
+# top of each other over the hero. They are now staggered by JS
+# and positioned so they never collide with each other or with
+# the buttons they point at.
+--------------------------------------------------------------*/
+#chat-hint,
+#contact-hint {
+  /* Sit beside the button, not above it: stacked vertically the bubble
+     ran straight into the button above it on narrow screens. */
+  top: 50% !important;
+  bottom: auto;
+  left: auto !important;
+  right: 76px;
+  transform: translateY(-50%);
+  width: max-content;
+  max-width: 180px;
+  text-align: left !important;
+  line-height: 1.4;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
+}
+
+/* Arrow points right, at the bubble's own vertical centre */
+#chat-hint > div:last-child,
+#contact-hint > div:last-child {
+  top: 50%;
+  bottom: auto !important;
+  left: auto !important;
+  right: -9px;
+  transform: translateY(-50%) !important;
+  border-top: 9px solid transparent !important;
+  border-bottom: 9px solid transparent !important;
+  border-right: 0 !important;
+  border-left: 9px solid #f0f0f0 !important;
+}
+
+#close-hint,
+#close-contact-hint {
+  top: -10px !important;
+  left: auto !important;
+  right: -10px;
+}
+
+/* Tighter stack for the two floating buttons on small screens */
+@media (max-width: 767px) {
+  #height-change {
+    bottom: 104px !important;
+    right: 18px !important;
+  }
+  #chat-widget > div:first-child {
+    right: 18px !important;
+  }
+}
+
+#chat-box {
+  width: min(400px, calc(100vw - 32px));
+  max-height: min(500px, calc(100vh - 140px));
+}
+
+@media (max-width: 575px) {
+  #chat-hint,
+  #contact-hint {
+    max-width: 150px;
+    right: 70px;
+    font-size: 0.8rem !important;
+  }
+}
+
+/*--------------------------------------------------------------
+# Section rhythm and readability
+--------------------------------------------------------------*/
+.section-title p {
+  max-width: 68ch;
+}
+
+.about .content h3 {
+  text-align: left !important;
+  margin-bottom: 18px;
+}
+
+.about .row {
+  align-items: flex-start;
+}
+
+.about img {
+  border-radius: 8px;
+}
+
+@media (max-width: 991px) {
+  .about .col-lg-4 {
+    max-width: 320px;
+    margin: 0 auto 24px;
+  }
+}
+
+/* The resume's two columns end at very different heights; giving
+   them a shared top edge stops the shorter one reading as broken. */
+.resume .resume-title {
+  margin-top: 0;
+}
+
+.resume .row > [class*='col-'] + [class*='col-'] .resume-title:first-of-type {
+  margin-top: 0;
+}
+
+@media (max-width: 991px) {
+  section {
+    padding: 44px 10px;
+  }
+  .section-title h2 {
+    font-size: 26px;
+  }
+}
+
+/*--------------------------------------------------------------
+# Touch targets
+#
+# Several controls were under the ~44px that a finger reliably
+# hits: the hint close buttons, the project overlay icons, and
+# the sidebar social links.
+--------------------------------------------------------------*/
+#close-hint,
+#close-contact-hint {
+  width: 28px !important;
+  height: 28px !important;
+}
+
+#header .profile .social-links a {
+  width: 40px;
+  height: 40px;
+  padding: 11px 0;
+}
+
+.portfolio .portfolio-wrap .portfolio-links a {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 4px;
+}
+
+#portfolio-flters li {
+  min-height: 38px;
+}
+
+.blog-item a,
+.cs-link {
+  min-height: 34px;
+  align-items: center;
+}
+
+/*--------------------------------------------------------------
+# Dark mode contrast repairs
+#
+# The template hardcodes near-black text on these, which all but
+# disappears once the surface behind them goes dark.
+--------------------------------------------------------------*/
+.facts .count-box span {
+  color: var(--text-strong);
+}
+
+.facts .count-box p {
+  color: var(--text-muted);
+}
+
+.facts .count-box i {
+  color: var(--accent);
+}
+
+.resume .resume-item h4,
+.resume .resume-title {
+  color: var(--text-strong);
+}
+
+.resume .resume-item h5 {
+  background: var(--surface-sunken);
+  color: var(--text);
+}
+
+.portfolio-details .portfolio-info h3,
+.portfolio-description h2 {
+  color: var(--text-strong);
+}
+
+.contact .info h4 {
+  color: var(--text-strong);
+}
+
+.contact .info p,
+.contact .info a p {
+  color: var(--text-muted);
+}
+
+.about .content ul li,
+.about .content ul strong {
+  color: var(--text);
+}
+
+.section-title h2 {
+  color: var(--text-strong);
+}
+
+/*--------------------------------------------------------------
+# Back-to-top vs the floating widgets
+#
+# The button sat at bottom-right, directly on top of the chat
+# toggle. It moves left of the widget column instead.
+--------------------------------------------------------------*/
+.back-to-top {
+  right: 100px;
+  bottom: 32px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 767px) {
+  .back-to-top {
+    right: 88px;
+    bottom: 24px;
+  }
+}
+
+/*==============================================================
+# ROUND 2 FIXES
+==============================================================*/
+
+/*--------------------------------------------------------------
+# Theme toggle centring
+#
+# `margin: 0 auto` does nothing to an inline-flex box, so the
+# button was sitting hard against the left edge of the sidebar
+# instead of centred under the avatar and social row.
+--------------------------------------------------------------*/
+#header .profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#header .profile > * {
+  width: 100%;
+}
+
+/* Needs to out-specify `#header .profile > *` above, or the pill
+   stretches to the full sidebar width instead of hugging its label. */
+#header .profile .theme-toggle {
+  display: inline-flex;
+  width: auto;
+  align-self: center;
+  margin: 16px 0 4px;
+}
+
+/*--------------------------------------------------------------
+# Floating widget column
+#
+# The chat toggle, the mail toggle and the back-to-top button
+# were each positioned independently and collided: back-to-top
+# landed on top of the chat hint bubble. They are now one
+# right-hand rail with a fixed pitch, so nothing can overlap and
+# the hints always have clear space to their left.
+--------------------------------------------------------------*/
+:root {
+  --rail-right: 28px;
+  --rail-size: 56px;
+  --rail-gap: 16px;
+}
+
+/* chat = slot 0, mail = slot 1, back-to-top = slot 2 */
+#chat-widget > div:first-child {
+  position: fixed !important;
+  right: var(--rail-right) !important;
+  bottom: 28px !important;
+  z-index: 1001;
+}
+
+#height-change {
+  position: fixed !important;
+  right: var(--rail-right) !important;
+  bottom: calc(28px + var(--rail-size) + var(--rail-gap)) !important;
+  z-index: 1001;
+}
+
+.back-to-top {
+  right: var(--rail-right);
+  bottom: calc(28px + (var(--rail-size) + var(--rail-gap)) * 2);
+  width: var(--rail-size);
+  height: var(--rail-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+}
+
+/* One consistent button size across the rail */
+#chat-toggle,
+#contact-toggle {
+  width: var(--rail-size) !important;
+  height: var(--rail-size) !important;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --rail-right: 16px;
+    --rail-size: 52px;
+    --rail-gap: 12px;
+  }
+  #chat-widget > div:first-child {
+    bottom: 20px !important;
+  }
+  #height-change {
+    bottom: calc(20px + var(--rail-size) + var(--rail-gap)) !important;
+  }
+  .back-to-top {
+    bottom: calc(20px + (var(--rail-size) + var(--rail-gap)) * 2);
+  }
+}
+
+/*--------------------------------------------------------------
+# Hint bubbles
+#
+# 180px forced "Chat with AI Assistant" onto three cramped lines.
+# Wider, with the text kept on one line where it fits.
+--------------------------------------------------------------*/
+#chat-hint,
+#contact-hint {
+  right: calc(var(--rail-size) + 18px);
+  max-width: none;
+  width: max-content;
+  /* Extra right padding keeps the close button off the last word. */
+  padding: 10px 26px 10px 14px !important;
+  font-size: 0.85rem !important;
+  white-space: nowrap;
+}
+
+@media (max-width: 575px) {
+  #chat-hint,
+  #contact-hint {
+    right: calc(var(--rail-size) + 14px);
+    /* Kept on one line here too — wrapping it inside a 52px-wide containing
+       block collapsed it to three cramped words per line. */
+    font-size: 0.78rem !important;
+    padding: 9px 24px 9px 12px !important;
+  }
+}
+
+/* The chat panel opens from the rail, so it needs the same anchor */
+#chat-box {
+  position: fixed;
+  right: var(--rail-right);
+  bottom: calc(28px + var(--rail-size) + 12px);
+  margin-top: 0;
+  z-index: 1002;
+}
+
+@media (max-width: 767px) {
+  #chat-box {
+    bottom: calc(20px + var(--rail-size) + 12px);
+  }
+}
+
+/*--------------------------------------------------------------
+# Case study media
+#
+# The image was capped at 460px inside a taller grid cell, so a
+# slab of the placeholder background showed underneath it. The
+# media column now fills its cell at every height.
+--------------------------------------------------------------*/
+/* Case study layout.
+   A two-column grid left 330-570px of dead space beside every card, because
+   the screenshot is a fixed 16:9 block and the write-up is much taller.
+   Stretching the image to fill that column cropped it to an unrecognisable
+   detail. So the image floats and the text wraps around it — beside it at the
+   top, then full width underneath. No dead column, nothing cropped. */
+@media (min-width: 992px) {
+  .cs-card {
+    display: block;
+  }
+
+  .cs-media {
+    float: left;
+    width: 44%;
+    margin: 30px 28px 20px 30px;
+    aspect-ratio: 16 / 9;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .cs-body {
+    /* Left padding lines the copy under the float up with the image's own
+       left edge; text alongside the float is already offset by the float
+       itself, so this only affects the lines that run full width.
+       No overflow/BFC here — that is what lets the copy wrap the float. */
+    padding: 30px 34px 30px 30px;
+  }
+
+  /* Long full-width lines are hard to track; a little extra right padding
+     keeps the measure sane without reopening a dead column. */
+  .cs-body .cs-section p,
+  .cs-body .cs-list li {
+    max-width: 96ch;
+  }
+
+  /* The card has to contain its own float */
+  .cs-card::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+
+  /* Flex children establish independent formatting contexts, so they sit
+     beside the float rather than wrapping. Fine — but they need the same
+     left offset as the text while they are alongside it. */
+  .cs-body > .cs-stack,
+  .cs-body > .cs-links {
+    margin-left: 0;
+  }
+}
+
+.cs-media {
+  min-height: 0;
+  overflow: hidden;
+  background: var(--surface-alt);
+}
+
+.cs-media img {
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  object-fit: cover;
+  object-position: top center;
+}
+
+@media (max-width: 991px) {
+  .cs-media {
+    position: static;
+    align-self: stretch;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/*--------------------------------------------------------------
+# Widget stacking
+#
+# Both widget wrappers carry Bootstrap's `z-3` (z-index: 3). On a
+# positioned element that opens a stacking context, so the chat
+# panel's own z-index:1002 was trapped inside a parent at 3 and
+# the back-to-top button (z-index 1001, a direct child of body)
+# painted straight over the open panel.
+--------------------------------------------------------------*/
+#chat-widget {
+  z-index: 1100 !important;
+}
+
+#contact-widget {
+  z-index: 1050 !important;
+}
+
+/* With the panel open it covers the mail and back-to-top slots anyway,
+   so they step aside rather than fighting it for the corner. */
+body.chat-open .back-to-top,
+body.chat-open #height-change {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+/*--------------------------------------------------------------
+# Resume — balanced columns
+#
+# Two fixed col-lg-6 halves always left a dead block under
+# whichever side had less content, and adding a role moved the
+# gap to the other side. Multi-column balances the flow, so the
+# bottoms line up whatever gets added.
+--------------------------------------------------------------*/
+@media (min-width: 992px) {
+  .resume-flow {
+    column-count: 2;
+    column-gap: 46px;
+    column-fill: balance;
+  }
+}
+
+/* Nothing should be split down the middle by a column break */
+.resume-flow .resume-item,
+.resume-flow hr {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+/* A heading stranded at the foot of a column is worse than a short column */
+.resume-flow .resume-title {
+  break-after: avoid;
+  page-break-after: avoid;
+  break-inside: avoid;
+}
+
+/* The first heading in a column shouldn't inherit the top margin that
+   separates sections mid-flow */
+.resume-flow > .resume-title:first-child {
+  margin-top: 0;
+}
+
+.resume-flow hr {
+  margin: 26px 0;
+  border-color: var(--border);
+  opacity: 1;
+}
+
+/*--------------------------------------------------------------
+# About
+#
+# Was a capped-width intro with half the section empty beside it,
+# then a separate image row. The photo now floats and the copy
+# wraps it: full width used, no line longer than comfortable.
+--------------------------------------------------------------*/
+.about-body {
+  max-width: 1100px;
+}
+
+.about-body::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.about-photo {
+  margin: 0 0 22px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--surface-alt);
+}
+
+.about-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.about-role {
+  margin: 0 0 14px;
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--accent);
+  text-align: left !important;
+}
+
+.about-lede,
+.about-close {
+  margin: 0 0 14px;
+  line-height: 1.8;
+  color: var(--text);
+}
+
+.about-facts {
+  margin: 22px 0 6px;
+}
+
+.about-close {
+  margin-top: 18px;
+}
+
+@media (min-width: 992px) {
+  .about-photo {
+    float: left;
+    width: 330px;
+    margin: 4px 32px 20px 0;
+    shape-outside: inset(0 round 10px);
+  }
+}
+
+@media (max-width: 991px) {
+  .about-photo {
+    max-width: 320px;
+    margin: 0 auto 22px;
+  }
+  .about-role {
+    text-align: center !important;
+  }
+}
+
+/*--------------------------------------------------------------
+# Hint bubbles — close button and pointer
+#
+# The close control was sitting on the bubble's own corner and the
+# pointer was touching the button it points at, so both read as
+# artefacts rather than parts of the tooltip.
+--------------------------------------------------------------*/
+#chat-hint,
+#contact-hint {
+  /* Clear of the button so the pointer has room to be seen */
+  right: calc(var(--rail-size) + 26px);
+  /* The close button and pointer both sit outside the box */
+  overflow: visible;
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.3));
+  box-shadow: none !important;
+}
+
+/* Pointer: a clean triangle, fully clear of the bubble edge */
+#chat-hint > div:last-child,
+#contact-hint > div:last-child {
+  right: -10px;
+  border-top: 10px solid transparent !important;
+  border-bottom: 10px solid transparent !important;
+  border-left: 10px solid #f0f0f0 !important;
+  border-right: 0 !important;
+}
+
+/* Close: sits fully outside the bubble corner, with a ring so it
+   reads as a control rather than a smudge on the edge */
+#close-hint,
+#close-contact-hint {
+  top: -11px !important;
+  right: -11px;
+  width: 26px !important;
+  height: 26px !important;
+  background-color: #1b2430 !important;
+  border: 2px solid #fff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45) !important;
+  z-index: 2;
+}
+
+#close-hint:hover,
+#close-contact-hint:hover {
+  background-color: var(--accent) !important;
+}
+
+#close-hint svg,
+#close-contact-hint svg {
+  width: 11px;
+  height: 11px;
 }
