@@ -1,18 +1,24 @@
 {
-  "name": "server",
+  "name": "portfolio-chat-server",
   "version": "1.0.0",
+  "description": "Gemini-backed chat endpoint for the portfolio site's AI assistant.",
   "main": "index.js",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "node --watch index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Prince Bhatt",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "express-rate-limit": "^7.4.1"
   }
 }
