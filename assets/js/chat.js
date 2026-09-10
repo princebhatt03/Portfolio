@@ -64,20 +64,47 @@
     messages.scrollTop = messages.scrollHeight;
   }
 
-  async function typeText(sender, text) {
+  /**
+   * Typing animation.
+   *
+   * Characters go in a few at a time on a fixed frame rather than one per
+   * tick — one-at-a-time made anything longer than a sentence crawl. The
+   * chunk grows with the length of the text, so the whole animation lands
+   * inside TYPE_MAX_MS however much the model sent back: a short answer
+   * still types visibly, a long one doesn't keep the visitor waiting.
+   */
+  const TYPE_TICK = 12; // ms between frames
+  const TYPE_MIN_CHARS = 3; // characters per frame, floor
+  const TYPE_MAX_MS = 2600; // ceiling on the whole animation
+
+  async function typeInto(body, text) {
     stopTyping = false;
-    const body = createBubble(sender);
+
     if (prefersReducedMotion) {
       body.textContent = text;
+      messages.scrollTop = messages.scrollHeight;
       return;
     }
-    for (let i = 0; i < text.length; i++) {
+
+    const frames = Math.max(1, Math.floor(TYPE_MAX_MS / TYPE_TICK));
+    const step = Math.max(TYPE_MIN_CHARS, Math.ceil(text.length / frames));
+
+    for (let i = 0; i < text.length; i += step) {
       if (stopTyping) break;
-      body.textContent += text[i];
+      body.textContent += text.slice(i, i + step);
       messages.scrollTop = messages.scrollHeight;
-      await new Promise(r => setTimeout(r, 10));
+      await new Promise(r => setTimeout(r, TYPE_TICK));
     }
-    if (stopTyping) body.textContent = text;
+
+    // Stopped part-way: drop the rest in rather than leaving a half sentence.
+    if (stopTyping) {
+      body.textContent = text;
+      messages.scrollTop = messages.scrollHeight;
+    }
+  }
+
+  async function typeText(sender, text) {
+    await typeInto(createBubble(sender), text);
   }
 
   function showTypingBubble() {
@@ -142,16 +169,57 @@
 
   const FALLBACK = `Sorry — I can't reach the assistant right now. Email Prince at ${CONTACT_EMAIL} and he'll reply himself.`;
 
+  /**
+   * The endpoint has shipped in two shapes: Server-Sent Events (`data: …`
+   * frames closed by `[DONE]`) and a single JSON body, `{ "reply": "…" }`.
+   * Reading an SSE stream out of a JSON body finds no frames at all — the
+   * loop drains the body, matches nothing, and returns having drawn no
+   * bubble, which is how a request that succeeded on the network tab still
+   * showed an empty panel. Pick the reader by Content-Type and handle both.
+   */
+
+  /** Pull the answer out of whichever field the JSON happens to use. */
+  function replyFrom(payload) {
+    if (typeof payload === 'string') return payload;
+    if (!payload || typeof payload !== 'object') return '';
+    const keys = ['reply', 'response', 'answer', 'text', 'message', 'content', 'output'];
+    for (const k of keys) {
+      if (typeof payload[k] === 'string' && payload[k].trim()) return payload[k];
+    }
+    return '';
+  }
+
+  /**
+   * The model answers in Markdown. Bubbles are plain text on purpose — never
+   * innerHTML — so `**Indian**` would otherwise arrive with its asterisks
+   * showing. Drop the emphasis markers instead of rendering markup.
+   */
+  function tidy(text) {
+    return String(text)
+      .replace(/\*\*(.+?)\*\*/g, '$1')
+      .replace(/__(.+?)__/g, '$1')
+      .replace(/^[ \t]*[*-][ \t]+/gm, '• ')
+      .trim();
+  }
+
   async function streamReply(message) {
     abortController = new AbortController();
     let body = null;
+    let wrote = false;
+    let aborted = false;
 
-    const write = text => {
+    const open = () => {
       if (!body) {
         removeTypingBubble();
         body = createBubble('Assistant');
       }
-      body.textContent += text;
+      return body;
+    };
+
+    const write = text => {
+      if (!text) return;
+      open().textContent += text;
+      wrote = true;
       messages.scrollTop = messages.scrollHeight;
     };
 
@@ -163,7 +231,48 @@
         signal: abortController.signal,
       });
 
-      if (!res.ok || !res.body) {
+      if (!res.ok) {
+        // Show the server's own explanation where there is one — a 429 says
+        // how long to wait, and the generic fallback used to swallow it.
+        let reason = '';
+        try {
+          const payload = await res.json();
+          reason = (payload && payload.error) || replyFrom(payload);
+        } catch (e) {
+          /* not JSON — fall through to the generic message */
+        }
+        write(reason ? tidy(reason) : FALLBACK);
+        return;
+      }
+
+      const contentType = (res.headers.get('Content-Type') || '').toLowerCase();
+
+      // --- Non-streaming backend: the whole answer in one body ---
+      if (!contentType.includes('text/event-stream')) {
+        const raw = await res.text();
+        let text = raw;
+        try {
+          // A JSON body with no answer field in it is not something to show a
+          // visitor raw — leave the text empty and let the fallback below
+          // speak instead.
+          text = replyFrom(JSON.parse(raw));
+        } catch (e) {
+          /* not JSON — a plain-text reply, use it as it came */
+        }
+
+        text = tidy(text);
+        if (text) {
+          // The whole answer arrives at once here, but dropping a paragraph
+          // into the panel in a single frame reads nothing like the streamed
+          // replies or the local ones. Type it in, same as those.
+          wrote = true;
+          await typeInto(open(), text);
+        }
+        return;
+      }
+
+      // --- Streaming backend: one `data:` frame per model chunk ---
+      if (!res.body) {
         write(FALLBACK);
         return;
       }
@@ -194,6 +303,7 @@
       }
     } catch (err) {
       if (err.name === 'AbortError') {
+        aborted = true;
         if (body) body.textContent += ' …stopped.';
         return;
       }
@@ -201,6 +311,10 @@
       write(FALLBACK);
     } finally {
       removeTypingBubble();
+      // Last line of defence: a request that produced no text at all — an
+      // unrecognised body shape, or a stream that closed before its first
+      // frame — still gets an answer rather than an empty panel.
+      if (!wrote && !aborted) write(FALLBACK);
     }
   }
 
@@ -294,9 +408,14 @@
     }
   });
 
+  // The chips are labelled short so five of them fit without swallowing the
+  // panel; data-message holds the question to send. Fall back to the label
+  // for any chip that doesn't carry one.
   document.querySelectorAll('#suggestions button').forEach(button => {
     button.addEventListener('click', () => {
-      userInput.value = button.textContent.trim();
+      const question = (button.dataset.message || button.textContent || '').trim();
+      if (!question) return;
+      userInput.value = question;
       sendMessage();
     });
   });
