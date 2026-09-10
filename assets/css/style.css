@@ -3497,3 +3497,67 @@ body.chat-open #height-change {
   width: 11px;
   height: 11px;
 }
+
+/*--------------------------------------------------------------
+# Chat panel layout
+#
+# The panel used to size itself from its children while the card
+# itself scrolled. Five full-width suggestion buttons stacked to
+# roughly 220px, which — on top of a 300px transcript, the header
+# and the composer — overflowed the 500px box, so the suggestions
+# filled the panel and the reply was pushed out of sight.
+#
+# It is a flex column now: header, suggestions and composer keep
+# their natural height, the transcript takes whatever is left, and
+# only the transcript scrolls. The inline width/max-height that
+# used to sit on the markup are gone too, so the responsive
+# min() sizing further up this file finally applies.
+--------------------------------------------------------------*/
+#chat-box {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+
+#chat-box .card-header,
+#chat-box #suggestions,
+#chat-box .card-footer {
+  flex: 0 0 auto;
+}
+
+/* min-height:0 is what lets a flex child shrink past its content
+   and hand the overflow to its own scrollbar. */
+#chat-box #messages {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+  overflow-y: auto;
+  margin-bottom: 0;
+  border-radius: 0;
+}
+
+/* Compact chips rather than five stacked full-width buttons. The
+   visible label is short; the question actually sent lives in
+   data-message, so the transcript still reads as a full sentence. */
+#suggestions {
+  gap: 6px;
+  padding: 8px 10px;
+  border-top: 1px solid var(--border);
+  background: var(--surface-raised);
+  max-height: 5.5rem;
+  overflow-y: auto;
+}
+
+#suggestions .btn {
+  padding: 4px 11px;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+#chat-box .card-footer {
+  border-top: 1px solid var(--border);
+  background: var(--surface-raised);
+}
