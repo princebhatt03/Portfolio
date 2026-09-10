@@ -1,0 +1,134 @@
+{
+  "_comment": "Single source of truth for the project case studies. portfolio-details.html renders every entry from this file, so adding a project means adding an object here and nothing else. Keep 'outcome' honest — leave it null rather than inventing a number.",
+  "projects": [
+    {
+      "id": "urbankart",
+      "name": "UrbanKart",
+      "tagline": "MERN e-commerce platform with payments and an admin dashboard",
+      "category": "Full Stack",
+      "year": "2025",
+      "image": "assets/img/portfolio/urbankart.webp",
+      "thumb": "assets/img/portfolio/urbankart-thumb.webp",
+      "alt": "UrbanKart e-commerce product listing",
+      "live": "https://urbankart-ecommerce.onrender.com",
+      "repo": "https://github.com/princebhatt03/UrbanCart",
+      "problem": "Most tutorial e-commerce builds stop at a product list and a fake checkout. I wanted to build the parts that actually make a store usable: real payments, real sessions, and an admin who can change the catalogue without touching the database.",
+      "approach": [
+        "Split authentication into two roles — customers and admins — behind JWT, with Google OAuth as a second sign-in path so buyers aren't forced to create yet another password.",
+        "Built the admin dashboard as a separate route tree with its own guard, so catalogue and order management never share a surface with the storefront.",
+        "Integrated Razorpay for payments, verifying the signature server-side rather than trusting the client callback.",
+        "Modelled cart state on the server so a cart survives a device change, instead of keeping it only in localStorage."
+      ],
+      "stack": ["React", "Node.js", "Express.js", "MongoDB", "Mongoose", "JWT", "Google OAuth", "Razorpay"],
+      "learned": "Signature verification is the whole point of a payment integration — the client callback tells you what the browser claims happened, not what the payment provider recorded. Moving that check server-side was the difference between a demo and something I'd let a real customer use.",
+      "outcome": null
+    },
+    {
+      "id": "pizzeria",
+      "name": "Pizzeria",
+      "tagline": "Real-time pizza ordering with live status tracking",
+      "category": "Full Stack",
+      "year": "2024",
+      "image": "assets/img/portfolio/react3.webp",
+      "thumb": "assets/img/portfolio/react3-thumb.webp",
+      "alt": "Pizzeria real-time order tracking dashboard",
+      "live": "https://pizzeria-ysv7.onrender.com",
+      "repo": "https://github.com/princebhatt03/Pizzeria",
+      "problem": "An order status page that only updates when you refresh is worse than no status page — the customer refreshes anyway, and the kitchen gets a phone call. The interesting problem was pushing state changes out rather than waiting to be asked.",
+      "approach": [
+        "Kept order status as a single server-side state machine (placed → confirmed → prepared → delivered) so the kitchen dashboard and the customer view can never disagree.",
+        "Pushed transitions over a live connection instead of polling, so the customer's page reflects a kitchen action within a second.",
+        "Gave the admin dashboard the same event stream the customer gets, so one implementation serves both.",
+        "Separated customer and admin sessions so a logged-in customer can't reach kitchen controls by guessing a URL."
+      ],
+      "stack": ["Node.js", "Express.js", "MongoDB", "EJS", "Socket-based updates", "Session auth"],
+      "learned": "Modelling status as an explicit state machine, rather than a string field anyone could write to, removed a whole class of bugs where an order could jump backwards or skip a step.",
+      "outcome": null
+    },
+    {
+      "id": "meta-photos",
+      "name": "Meta Photos",
+      "tagline": "Photo and video gallery with cloud-backed uploads",
+      "category": "Full Stack",
+      "year": "2024",
+      "image": "assets/img/portfolio/meta.webp",
+      "thumb": "assets/img/portfolio/meta-thumb.webp",
+      "alt": "Meta Photos gallery, a Google Photos clone",
+      "live": "https://meta-photos.onrender.com/",
+      "repo": "https://github.com/princebhatt03/Meta-Photos",
+      "problem": "Storing user-uploaded media on the application server means the first popular user fills the disk, and every deploy risks the files. I wanted to learn how media is actually handled in production.",
+      "approach": [
+        "Handled multipart uploads with Multer, then streamed straight to Cloudinary rather than writing to local disk.",
+        "Stored only the returned URLs and metadata in MongoDB, keeping the database small and the app server stateless.",
+        "Scoped every query to the owning user so one account's media is never reachable from another's session.",
+        "Used server-rendered EJS views to keep the first paint fast on a media-heavy page."
+      ],
+      "stack": ["Node.js", "Express.js", "MongoDB", "EJS", "Multer", "Cloudinary"],
+      "learned": "A stateless app server is what makes redeploying safe. Once uploads went to object storage instead of the filesystem, deploys stopped being something to worry about.",
+      "outcome": null
+    },
+    {
+      "id": "location-tracker",
+      "name": "Live Location Tracker",
+      "tagline": "Real-time position sharing on an interactive map",
+      "category": "Full Stack",
+      "year": "2024",
+      "image": "assets/img/portfolio/maps.webp",
+      "thumb": "assets/img/portfolio/maps-thumb.webp",
+      "alt": "Real-time location tracker map view",
+      "live": "https://maps-z7mu.onrender.com/",
+      "repo": "https://github.com/princebhatt03",
+      "problem": "Browser geolocation fires far more often than a map needs to redraw, and every update is a network message. Sending all of them makes the map jitter and wastes the connection.",
+      "approach": [
+        "Subscribed to the Geolocation watch API and throttled updates before they reach the socket, rather than emitting on every fix.",
+        "Broadcast positions by connection id so a client can render other participants without any of them sharing an account.",
+        "Cleaned up markers on disconnect, so a closed tab doesn't leave a ghost pin on everyone else's map."
+      ],
+      "stack": ["Node.js", "Express.js", "Socket-based updates", "Leaflet", "Geolocation API"],
+      "learned": "Throttling at the source is much cheaper than de-duplicating downstream. It also made the map feel calmer, which was a UX win I hadn't expected from a performance change.",
+      "outcome": null
+    },
+    {
+      "id": "auxes",
+      "name": "AUXES IT Solutions",
+      "tagline": "Company website built and deployed during my time there",
+      "category": "Client work",
+      "year": "2025",
+      "image": "assets/img/portfolio/Auxes.webp",
+      "thumb": "assets/img/portfolio/Auxes-thumb.webp",
+      "alt": "Auxes IT Solutions company website homepage",
+      "live": "http://api.auxes.in/",
+      "repo": null,
+      "problem": "The company needed an official site that non-developers could keep current, and it had to go live on a fixed date around existing client work.",
+      "approach": [
+        "Built the front end and the REST layer behind it, so content changes don't require a redeploy.",
+        "Worked to a fixed launch date alongside the team's existing commitments.",
+        "Handled the deployment and post-launch fixes myself."
+      ],
+      "stack": ["React", "Node.js", "Express.js", "MongoDB", "REST APIs"],
+      "learned": "Shipping to someone else's deadline is a different skill from building something well. Scoping honestly at the start mattered more than working faster at the end.",
+      "outcome": "Recognised internally for clean code practices and on-time delivery."
+    },
+    {
+      "id": "quickpick",
+      "name": "QuickPick",
+      "tagline": "E-commerce storefront with API-driven catalogue",
+      "category": "Full Stack",
+      "year": "2024",
+      "image": "assets/img/portfolio/princeOfDeals.webp",
+      "thumb": "assets/img/portfolio/princeOfDeals-thumb.webp",
+      "alt": "QuickPick e-commerce storefront",
+      "live": "https://quickpick-ba3l.onrender.com",
+      "repo": "https://github.com/princebhatt03/QuickPick-E-Commerce-Website",
+      "problem": "An earlier attempt at a store before UrbanKart — the version where I worked out how catalogue, cart and checkout fit together before rebuilding it properly.",
+      "approach": [
+        "Loaded the product catalogue over an API rather than hardcoding it, so the same front end works against different data.",
+        "Built a persistent cart and a checkout flow with payment integration.",
+        "Kept the admin upload path separate from the storefront."
+      ],
+      "stack": ["Node.js", "Express.js", "MongoDB", "REST APIs", "Payment integration"],
+      "learned": "Building the same problem twice taught me more than any single project — the second version was better mostly because I already knew which decisions I'd regret.",
+      "outcome": null
+    }
+  ]
+}

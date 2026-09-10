@@ -1,0 +1,123 @@
+{
+  "_comment": "Single source of truth for everything the AI assistant knows about Prince. assets/js/knowledge.js answers questions straight from this file — no API call, no quota, works offline. Keep Server/index.js SYSTEM_PROMPT in step with it so the Gemini fallback is grounded in the same facts. Anything absent here is deliberately absent: the assistant says it doesn't have that detail rather than inventing one.",
+
+  "name": "Prince Bhatt",
+  "role": "Full Stack Developer",
+  "headline": "Full Stack Developer working across React, Node.js, TypeScript and MongoDB",
+
+  "careerStart": "2024-03",
+  "careerStartNote": "First professional role — Web Development Internship at Quasar Digital Solutions.",
+
+  "location": {
+    "city": "Bhopal",
+    "region": "Madhya Pradesh",
+    "country": "India"
+  },
+
+  "dob": "2002-08-03",
+
+  "contact": {
+    "email": "princebhatt316@gmail.com",
+    "github": "https://github.com/princebhatt03",
+    "githubHandle": "princebhatt03",
+    "linkedin": "https://www.linkedin.com/in/prince-bhatt-0958a725a/",
+    "instagram": "https://www.instagram.com/prince20.02",
+    "instagramHandle": "prince20.02"
+  },
+
+  "resume": "assets/img/Resume/Prince_Bhatt_Resume.pdf",
+
+  "availability": {
+    "freelance": true,
+    "summary": "Available for freelance work and open to new opportunities."
+  },
+
+  "education": {
+    "degree": "B.Tech in Computer Science, specialising in Internet of Things (IoT)",
+    "institute": "Samrat Ashok Technological Institute (SATI), Vidisha, Madhya Pradesh",
+    "start": "Nov 2021",
+    "end": "Jun 2025"
+  },
+
+  "experience": [
+    {
+      "title": "Full Stack Developer",
+      "company": "Neebha Web Services Private Limited",
+      "start": "Apr 2026",
+      "end": "Present",
+      "current": true,
+      "points": [
+        "Builds and maintains scalable web applications across frontend and backend.",
+        "React, HTML, CSS and JavaScript on the front end; Node.js, Express and TypeScript on the back.",
+        "Integrates MongoDB and SQL, with a focus on efficient data handling and query performance.",
+        "Implements authentication, authorisation and secure API communication in production."
+      ]
+    },
+    {
+      "title": "Backend Developer",
+      "company": "Moong Labs Technologies Pvt. Ltd.",
+      "start": "Nov 2025",
+      "end": "Apr 2026",
+      "current": false,
+      "points": [
+        "Worked on enterprise gaming and analytics systems.",
+        "Built Node.js and TypeScript backend modules for scalable performance.",
+        "Used Redis caching and optimised queries to improve API response times.",
+        "Applied clean architecture principles and reusable service modules."
+      ]
+    },
+    {
+      "title": "Full Stack Developer",
+      "company": "AUXES IT Solutions",
+      "start": "Dec 2024",
+      "end": "Oct 2025",
+      "current": false,
+      "points": [
+        "Built and deployed the company's official website on the MERN stack.",
+        "Developed and integrated REST APIs for dynamic data handling.",
+        "Recognised for clean code practices and on-time delivery."
+      ]
+    },
+    {
+      "title": "Web Development Intern",
+      "company": "Quasar Digital Solutions, Bhopal",
+      "start": "Mar 2024",
+      "end": "Oct 2024",
+      "current": false,
+      "points": [
+        "Specialised in UI and frontend development.",
+        "Created responsive, interactive web components.",
+        "Received a certificate for outstanding performance."
+      ]
+    }
+  ],
+
+  "skills": {
+    "production": [
+      "JavaScript", "TypeScript", "Node.js", "Express.js", "React",
+      "MongoDB", "REST APIs", "Redis", "Git", "HTML", "CSS"
+    ],
+    "comfortable": [
+      "Next.js", "React Native", "Tailwind CSS", "Bootstrap", "SQL", "Java",
+      "Mongoose", "JWT", "OAuth", "Google OAuth", "Cloudinary", "Postman",
+      "Razorpay", "EJS", "Multer"
+    ],
+    "learning": [
+      "Docker", "AWS", "System design", "CI/CD", "Jest", "GraphQL"
+    ]
+  },
+
+  "strengths": [
+    "Building complete features end to end, from the database through to the interface.",
+    "Backend work in Node.js and TypeScript — APIs, authentication, caching and query performance.",
+    "Shipping to a deadline; recognised at AUXES for clean code and on-time delivery."
+  ],
+
+  "notKnown": {
+    "message": "That isn't something I have on file. Email Prince at princebhatt316@gmail.com and he'll answer directly.",
+    "topics": [
+      "salary", "current ctc", "expected ctc", "notice period", "visa",
+      "relocation", "hourly rate", "day rate", "references", "marital status"
+    ]
+  }
+}
