@@ -560,10 +560,12 @@
         </div>
 
         <!-- Chat Box -->
+        <!-- Sizing lives in style.css (# Chat panel layout) so the responsive
+             min() rules apply; an inline width/max-height here used to win
+             over them. -->
         <div
           id="chat-box"
-          class="card shadow-lg d-none"
-          style="width: 320px; max-height: 500px">
+          class="card shadow-lg d-none">
           <!-- Header -->
           <div
             class="card-header text-white d-flex align-items-center"
@@ -580,30 +582,48 @@
             </button>
           </div>
 
-          <!-- Messages -->
+          <!-- Messages — height comes from the flex column, not a fixed cap -->
           <div
             id="messages"
-            class="card-body overflow-auto bg-light"
-            style="max-height: 300px"></div>
+            class="card-body overflow-auto bg-light"></div>
 
-          <!-- Suggested Questions -->
+          <!-- Suggested questions. Short labels so all five fit in two compact
+               rows; data-message carries the question that actually gets sent,
+               so the transcript still reads as a full sentence. -->
           <div
             id="suggestions"
-            class="d-flex flex-wrap gap-2 p-2">
-            <button class="btn btn-sm btn-outline-primary">
-              How much experience does he have?
+            class="d-flex flex-wrap gap-2 p-2"
+            role="group"
+            aria-label="Suggested questions">
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-primary"
+              data-message="How much experience does he have?">
+              Experience
             </button>
-            <button class="btn btn-sm btn-outline-primary">
-              What's his tech stack?
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-primary"
+              data-message="What's his tech stack?">
+              Tech stack
             </button>
-            <button class="btn btn-sm btn-outline-primary">
-              What has he built?
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-primary"
+              data-message="What has he built?">
+              Projects
             </button>
-            <button class="btn btn-sm btn-outline-primary">
-              Is he available for freelance?
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-primary"
+              data-message="Is he available for freelance?">
+              Freelance
             </button>
-            <button class="btn btn-sm btn-outline-primary">
-              How do I contact him?
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-primary"
+              data-message="How do I contact him?">
+              Contact
             </button>
           </div>
 
@@ -1503,10 +1523,10 @@
             <div class="col-lg-4 col-md-6 portfolio-item filter-fullstack filter-freelance">
               <div class="portfolio-wrap">
                 <div class="portfolio-thumb">
-                  <img src="assets/img/portfolio/Auxes-thumb.webp" class="img-fluid" width="760" height="359" alt="Auxes IT Solutions company website homepage" loading="lazy" decoding="async" />
+                  <img src="assets/project-images/Auxes-thumb.webp" class="img-fluid" width="760" height="359" alt="Auxes IT Solutions company website homepage" loading="lazy" decoding="async" />
                 <div class="portfolio-links">
                   <a
-                    href="assets/img/portfolio/Auxes.webp"
+                    href="assets/project-images/Auxes.webp"
                     data-gallery="portfolioGallery"
                     class="portfolio-lightbox"
                     aria-label="Enlarge screenshot of Auxes"
@@ -1532,10 +1552,10 @@
             <div class="col-lg-4 col-md-6 portfolio-item filter-frontend">
               <div class="portfolio-wrap">
                 <div class="portfolio-thumb">
-                  <img src="assets/img/portfolio/Smart_Cart_&_Checkout_System-thumb.webp" class="img-fluid" width="760" height="361" alt="Smart Cart and Checkout System interface" loading="lazy" decoding="async" />
+                  <img src="assets/project-images/Smart_Cart_&_Checkout_System-thumb.webp" class="img-fluid" width="760" height="361" alt="Smart Cart and Checkout System interface" loading="lazy" decoding="async" />
                 <div class="portfolio-links">
                   <a
-                    href="assets/img/portfolio/Smart_Cart_&_Checkout_System.webp"
+                    href="assets/project-images/Smart_Cart_&_Checkout_System.webp"
                     data-gallery="portfolioGallery"
                     class="portfolio-lightbox"
                     aria-label="Enlarge screenshot of Smart Cart and Checkout System"
@@ -1561,10 +1581,10 @@
             <div class="col-lg-4 col-md-6 portfolio-item filter-fullstack">
               <div class="portfolio-wrap">
                 <div class="portfolio-thumb">
-                  <img src="assets/img/portfolio/princeOfDeals-thumb.webp" class="img-fluid" width="760" height="360" alt="QuickPick e-commerce storefront" loading="lazy" decoding="async" />
+                  <img src="assets/project-images/princeOfDeals-thumb.webp" class="img-fluid" width="760" height="360" alt="QuickPick e-commerce storefront" loading="lazy" decoding="async" />
                 <div class="portfolio-links">
                   <a
-                    href="assets/img/portfolio/princeOfDeals.webp"
+                    href="assets/project-images/princeOfDeals.webp"
                     data-gallery="portfolioGallery"
                     class="portfolio-lightbox"
                     aria-label="Enlarge screenshot of QuickPick E-commerce Website"
@@ -1590,10 +1610,10 @@
             <div class="col-lg-4 col-md-6 portfolio-item filter-fullstack">
               <div class="portfolio-wrap">
                 <div class="portfolio-thumb">
-                  <img src="assets/img/portfolio/meta-thumb.webp" class="img-fluid" width="760" height="363" alt="Meta Photos gallery, a Google Photos clone" loading="lazy" decoding="async" />
+                  <img src="assets/project-images/meta-thumb.webp" class="img-fluid" width="760" height="363" alt="Meta Photos gallery, a Google Photos clone" loading="lazy" decoding="async" />
                 <div class="portfolio-links">
                   <a
-                    href="assets/img/portfolio/meta.webp"
+                    href="assets/project-images/meta.webp"
                     data-gallery="portfolioGallery"
                     class="portfolio-lightbox"
                     aria-label="Enlarge screenshot of Meta Photos"
@@ -1619,10 +1639,10 @@
             <div class="col-lg-4 col-md-6 portfolio-item filter-frontend">
               <div class="portfolio-wrap">
                 <div class="portfolio-thumb">
-                  <img src="assets/img/portfolio/react2-thumb.webp" class="img-fluid" width="760" height="358" alt="Starbucks Reimagine landing page built in React" loading="lazy" decoding="async" />
+                  <img src="assets/project-images/react2-thumb.webp" class="img-fluid" width="760" height="358" alt="Starbucks Reimagine landing page built in React" loading="lazy" decoding="async" />
                 <div class="portfolio-links">
                   <a
-                    href="assets/img/portfolio/react2.webp"
+                    href="assets/project-images/react2.webp"
                     data-gallery="portfolioGallery"
                     class="portfolio-lightbox"
                     aria-label="Enlarge screenshot of Starbucks"
@@ -1648,10 +1668,10 @@
             <div class="col-lg-4 col-md-6 portfolio-item filter-frontend">
               <div class="portfolio-wrap">
                 <div class="portfolio-thumb">
-                  <img src="assets/img/portfolio/crystallo-thumb.webp" class="img-fluid" width="760" height="360" alt="Crystallo product landing page" loading="lazy" decoding="async" />
+                  <img src="assets/project-images/crystallo-thumb.webp" class="img-fluid" width="760" height="360" alt="Crystallo product landing page" loading="lazy" decoding="async" />
                 <div class="portfolio-links">
                   <a
-                    href="assets/img/portfolio/crystallo.webp"
+                    href="assets/project-images/crystallo.webp"
                     data-gallery="portfolioGallery"
                     class="portfolio-lightbox"
                     aria-label="Enlarge screenshot of Crystallo"
@@ -1677,10 +1697,10 @@
             <div class="col-lg-4 col-md-6 portfolio-item filter-fullstack">
               <div class="portfolio-wrap">
                 <div class="portfolio-thumb">
-                  <img src="assets/img/portfolio/maps-thumb.webp" class="img-fluid" width="760" height="351" alt="Real-time location tracker map view" loading="lazy" decoding="async" />
+                  <img src="assets/project-images/maps-thumb.webp" class="img-fluid" width="760" height="351" alt="Real-time location tracker map view" loading="lazy" decoding="async" />
                 <div class="portfolio-links">
                   <a
-                    href="assets/img/portfolio/maps.webp"
+                    href="assets/project-images/maps.webp"
                     data-gallery="portfolioGallery"
                     class="portfolio-lightbox"
                     aria-label="Enlarge screenshot of Location Tracker"
@@ -1706,10 +1726,10 @@
             <div class="col-lg-4 col-md-6 portfolio-item filter-fullstack">
               <div class="portfolio-wrap">
                 <div class="portfolio-thumb">
-                  <img src="assets/img/portfolio/urbankart-thumb.webp" class="img-fluid" width="760" height="358" alt="UrbanKart e-commerce product listing" loading="lazy" decoding="async" />
+                  <img src="assets/project-images/urbankart-thumb.webp" class="img-fluid" width="760" height="358" alt="UrbanKart e-commerce product listing" loading="lazy" decoding="async" />
                 <div class="portfolio-links">
                   <a
-                    href="assets/img/portfolio/urbankart.webp"
+                    href="assets/project-images/urbankart.webp"
                     data-gallery="portfolioGallery"
                     class="portfolio-lightbox"
                     aria-label="Enlarge screenshot of E-commerce Website"
@@ -1735,10 +1755,10 @@
             <div class="col-lg-4 col-md-6 portfolio-item filter-fullstack">
               <div class="portfolio-wrap">
                 <div class="portfolio-thumb">
-                  <img src="assets/img/portfolio/react3-thumb.webp" class="img-fluid" width="760" height="354" alt="Pizzeria real-time order tracking dashboard" loading="lazy" decoding="async" />
+                  <img src="assets/project-images/react3-thumb.webp" class="img-fluid" width="760" height="354" alt="Pizzeria real-time order tracking dashboard" loading="lazy" decoding="async" />
                 <div class="portfolio-links">
                   <a
-                    href="assets/img/portfolio/react3.webp"
+                    href="assets/project-images/react3.webp"
                     data-gallery="portfolioGallery"
                     class="portfolio-lightbox"
                     aria-label="Enlarge screenshot of Pizzeria"
